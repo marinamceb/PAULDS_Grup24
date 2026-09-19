@@ -1,10 +1,20 @@
-1744151 Abel Torrabadella Vila
+===== 1744151 Abel Torrabadella Vila =====
+
 - 
 
-1742588 Pol Ruiz Torras
+-
+
+===== 1742588 Pol Ruiz Torras ======
+
 - 
 
-1747437 Marina Martín Cebrián
-- Apartat "1-Refactorization": organitzar els fitxers del projecte,
-seguir els passos de l'enunciat del punt 1 al punt 16 (omplir la 
-classe Universe, creació de la classe NBodySimulator, creació del Main. 
+-
+
+===== 1747437 Marina Martín Cebrián =====
+
+- Apartat “1-Refactorization”: organització dels fitxers del projecte i seguiment 
+dels passos de l’1 al 16 de l’enunciat, incloent-hi l’emplenament de la classe Universe, 
+la creació de la classe NBodySimulator i la creació de la classe Main.
+
+- Implementació del mètode public void update(double dt) a la classe Universe, encarregat 
+de calcular les forces sobre els cossos i actualitzar-ne la posició.

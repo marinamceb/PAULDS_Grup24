@@ -42,11 +42,20 @@ public class Universe {
 
   // 1-REFACTORIZATION: 8. Add the method void update(double dt) , empty for the moment
   public void update(double dt) {
-    // TODO: first compute the force applied to each body as a result
-    // of the sum of gravitational forces by each other body. Then
-    // tell each body to move according to the force we have computed
-    // for it. Use plus() of Vector and forceFrom(), move() of Body
-
+    Vector[] forces = new Vector[numBodies];
+    // * Compute the force applied to each body
+    for (int i=0; i<numBodies; i++) { // For each body...
+      forces[i] = new Vector(new double[]{0, 0}); // Initializes the force of body i to (0,0)
+      for (int j = 0; j < numBodies; j++) {
+        if (i != j) { // For each body different to body i...
+          forces[i] = forces[i].plus(bodies[i].forceFrom(bodies[j])); // ... sum the force that body j exerts on body i
+        }
+      }
+    }
+    // * Tell each body to move according to the force we have computed for it
+    for (int i=0; i<numBodies; i++) {
+      bodies[i].move(forces[i], dt);
+    }
   }
 
   // 1-REFACTORIZATION: 15. Add the missing getRadius() in Universe needed by createCanvas()
