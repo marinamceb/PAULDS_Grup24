@@ -1,0 +1,12 @@
+i. which GRASP patterns / design principles are we applying in doing the
+refactoring ?
+
+
+
+ii. answer to questions of slide #37
+
+
+
+iii. how have you designed the extension of special configurations ?
+
+

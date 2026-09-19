@@ -1,0 +1,10 @@
+1744151 Abel Torrabadella Vila
+- 
+
+1742588 Pol Ruiz Torras
+- 
+
+1747437 Marina Martín Cebrián
+- Apartat "1-Refactorization": organitzar els fitxers del projecte,
+seguir els passos de l'enunciat del punt 1 al punt 16 (omplir la 
+classe Universe, creació de la classe NBodySimulator, creació del Main. 
