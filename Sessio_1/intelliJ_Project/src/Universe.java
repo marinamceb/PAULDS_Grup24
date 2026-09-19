@@ -42,6 +42,10 @@ public class Universe {
 
   // 1-REFACTORIZATION: 8. Add the method void update(double dt) , empty for the moment
   public void update(double dt) {
+    // TODO: first compute the force applied to each body as a result
+    // of the sum of gravitational forces by each other body. Then
+    // tell each body to move according to the force we have computed
+    // for it. Use plus() of Vector and forceFrom(), move() of Body
 
   }
 

@@ -23,6 +23,11 @@ public class NBodySimulator {
 
   // 1-REFACTORIZATION: 11. Add an empty method public void simulate() {}
   public void simulate() {
+    // TODO: to simulate, first create a canvas and then iterate forever :
+    // clear the canvas with StdDraw.clear(), update the universe (which
+    // means the position of its bodies), draw the universe (which means
+    // the position of its bodies), do StdDraw.show(), wait for some time
+    // that can be 0 with StdDraw.pause(pauseTime)
 
   }
 
@@ -41,6 +46,12 @@ public class NBodySimulator {
   // 1-REFACTORIZATION: 16. create in NBodySimulator an method drawUniverse() , empty for the moment
   // (and void, private, according to the design)
   private void drawUniverse() {
+    // TODO : get the position (a Vector) of each body in universe
+    // and plot it with StdDraw.point(x,y). A Vector v returns its coordinates
+    // with v.cartesian(0) and v.cartesian(1)
+    // For this we need to ask to a Universe its number of bodies n
+    // and the position of the i-th body, i=0...n-1. Also, a Body
+    // must have a getPosition() method
 
   }
 }
