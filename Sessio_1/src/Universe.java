@@ -1,9 +1,14 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
 /*
 * CLASSE UNIVERSE: Crea i conté els cossos de l'univers.
 * */
 
 public class Universe {
   /* ATTRIBUTES */
+
   private int numBodies;
   private double radius;
   private Body[] bodies;
@@ -13,7 +18,7 @@ public class Universe {
   public Universe(String fname){
     try{
       Scanner in=new Scanner(new FileReader(fname));
-      nomBodies=Integer.parseInt(in.next());
+      numBodies=Integer.parseInt(in.next());
       radius=Double.parseDouble(in.next());
       bodies=new Body[numBodies];
       for(int i=0;i<numBodies;i++){
@@ -34,6 +39,10 @@ public class Universe {
 
   public void update(double dt) {
 
+  }
+
+  public double getRadius() {
+    return radius;
   }
 
 }
