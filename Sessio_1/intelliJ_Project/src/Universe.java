@@ -2,19 +2,22 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-/*
-* CLASSE UNIVERSE: Crea i conté els cossos de l'univers.
-* */
+//1-REFACTORIZATION: 6. Add a new class Universe with File New Java class
+
 
 public class Universe {
-  /* ATTRIBUTES */
 
+  // ATTRIBUTES
+
+  // 1-REFACTORIZATION: 10. Add the three private attributes of the design plus the (also private)
+  // attribute universe that implements the composition
   private int numBodies;
   private double radius;
   private Body[] bodies;
 
-  /* METHODS */
+  // METHODS
 
+  // 1-REFACTORIZATION: 6. Copy the constructor
   public Universe(String fname){
     try{
       Scanner in=new Scanner(new FileReader(fname));
@@ -37,10 +40,12 @@ public class Universe {
     } catch (FileNotFoundException e) {e.printStackTrace(); }
   }
 
+  // 1-REFACTORIZATION: 8. Add the method void update(double dt) , empty for the moment
   public void update(double dt) {
 
   }
 
+  // 1-REFACTORIZATION: 15. Add the missing getRadius() in Universe needed by createCanvas()
   public double getRadius() {
     return radius;
   }

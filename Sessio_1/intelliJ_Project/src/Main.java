@@ -1,3 +1,7 @@
+
+// 1-REFACTORIZATION: 12. Switch to class Main . We are going to fill-in the main() with some code that gets
+// the parameters for execution but only to test the creation of the Universe object
+// and its bodies.
 public class Main {
 
   public static void main(String[] args) {

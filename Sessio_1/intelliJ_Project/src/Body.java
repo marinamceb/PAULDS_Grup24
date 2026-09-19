@@ -34,16 +34,19 @@ public class Body {
         return delta.direction().scale(magnitude);
     }
 
-//    public void draw() {
-//        StdDraw.setPenRadius(0.025);
-//        StdDraw.point(r.cartesian(0), r.cartesian(1));
-//    }
+/*
+    // 1-REFACTORIZATION: 5. According to the new design, remove the two draw methods in Body
+    public void draw() {
+        StdDraw.setPenRadius(0.025);
+        StdDraw.point(r.cartesian(0), r.cartesian(1));
+    }
 
     // this method is only needed if you want to change the size of the bodies
-//    public void draw(double penRadius) {
-//        StdDraw.setPenRadius(penRadius);
-//        StdDraw.point(r.cartesian(0), r.cartesian(1));
-//    }
+    public void draw(double penRadius) {
+        StdDraw.setPenRadius(penRadius);
+        StdDraw.point(r.cartesian(0), r.cartesian(1));
+    }
+*/
 
     @Override
     public String toString() {
