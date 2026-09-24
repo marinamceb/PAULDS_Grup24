@@ -29,6 +29,23 @@ public class NBodySimulator {
     // the position of its bodies), do StdDraw.show(), wait for some time
     // that can be 0 with StdDraw.pause(pauseTime)
 
+    createCanvas();
+
+    while (true){
+      StdDraw.clear();
+
+      // "Update the universe"
+      universe.update(timeStep);
+
+      // "Draw the universe"
+      drawUniverse();
+
+      StdDraw.show();
+
+      // "wait for some time"
+      StdDraw.pause(pauseTime);
+    }
+
   }
 
   // 1-REFACTORIZATION: 14. Back to NBodySimulation , add the following method that creates the canvas, the
