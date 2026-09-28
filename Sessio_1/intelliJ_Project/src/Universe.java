@@ -42,19 +42,26 @@ public class Universe {
 
   // 1-REFACTORIZATION: 8. Add the method void update(double dt) , empty for the moment
   public void update(double dt) {
-    Vector[] forces = new Vector[numBodies];
-    // * Compute the force applied to each body
-    for (int i=0; i<numBodies; i++) { // For each body...
-      forces[i] = new Vector(new double[]{0, 0}); // Initializes the force of body i to (0,0)
+    //hem de calcular la força total sobre cada cos, sumant la força que fa cada un.
+    //Moure cada cos amb aquesta força.
+
+    Vector[] f = new Vector[numBodies]; //definim un vector que té el nombre de cossos de l'espai.
+    for (int i = 0; i < numBodies; i++){ //recorrem cada cos i definim que tinguin força 0.
+      f[i] = new Vector(new double[2]);
+    }
+    //força total sobre cada cos = suma de les forces de tots els altres
+    for (int i = 0; i < numBodies; i++) {
       for (int j = 0; j < numBodies; j++) {
-        if (i != j) { // For each body different to body i...
-          forces[i] = forces[i].plus(bodies[i].forceFrom(bodies[j])); // ... sum the force that body j exerts on body i
+        if (i != j) {
+          f[i] = f[i].plus(bodies[i].forceFrom(bodies[j]));
+          //bodies[i].forceForm(bodies[j]) calcula la força que fa el cos j, és un objecte Vector.
+          //f[i].plus plus és un metode de Vector que suma dos vectors
         }
       }
     }
-    // * Tell each body to move according to the force we have computed for it
-    for (int i=0; i<numBodies; i++) {
-      bodies[i].move(forces[i], dt);
+    //ara movem els cossos
+    for (int i = 0; i < numBodies; i++) {
+      bodies[i].move(f[i], dt);
     }
   }
 
