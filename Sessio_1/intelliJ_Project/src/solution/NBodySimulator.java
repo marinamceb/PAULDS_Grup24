@@ -1,3 +1,4 @@
+package solution;
 
 // 1-REFACTORIZATION: 9. Add a new class NBodySimulator
 public class NBodySimulator {

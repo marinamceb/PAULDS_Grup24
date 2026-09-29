@@ -32,8 +32,8 @@ public class Universe {
         double mass = Double.parseDouble(in.next());
         double[] position = {rx,ry};
         double[] velocity = {vx,vy};
-        Vector r = new Vector(position);
-        Vector v = new Vector(velocity);
+        Vector_original r = new Vector_original(position);
+        Vector_original v = new Vector_original(velocity);
         bodies[i] = new Body(r,v,mass);
         System.out.println(bodies[i]);
       }
@@ -45,9 +45,9 @@ public class Universe {
     //hem de calcular la força total sobre cada cos, sumant la força que fa cada un.
     //Moure cada cos amb aquesta força.
 
-    Vector[] f = new Vector[numBodies]; //definim un vector que té el nombre de cossos de l'espai.
+    Vector_original[] f = new Vector_original[numBodies]; //definim un vector que té el nombre de cossos de l'espai.
     for (int i = 0; i < numBodies; i++){ //recorrem cada cos i definim que tinguin força 0.
-      f[i] = new Vector(new double[2]);
+      f[i] = new Vector_original(new double[2]);
     }
     //força total sobre cada cos = suma de les forces de tots els altres
     for (int i = 0; i < numBodies; i++) {
@@ -74,7 +74,7 @@ public class Universe {
 
   public Body[] getBodies() { return bodies; }
 
-  public Vector getBodyPosition(int i){
+  public Vector_original getBodyPosition(int i){
     return getBodies()[i].getPosition();
   }
 

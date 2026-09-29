@@ -9,26 +9,26 @@
  ******************************************************************************/
 
 public class Body {
-    private Vector r;           // position
-    private Vector v;           // velocity
+    private Vector_original r;           // position
+    private Vector_original v;           // velocity
     private final double mass;  // mass
 
-    public Body(Vector r, Vector v, double mass) {
+    public Body(Vector_original r, Vector_original v, double mass) {
         this.r = r;
         this.v = v;
         this.mass = mass;
     }
 
-    public void move(Vector f, double dt) {
-        Vector a = f.scale(1/mass);
+    public void move(Vector_original f, double dt) {
+        Vector_original a = f.scale(1/mass);
         v = v.plus(a.scale(dt));
         r = r.plus(v.scale(dt));
     }
 
-    public Vector forceFrom(Body b) {
+    public Vector_original forceFrom(Body b) {
         Body a = this;
         double G = 6.67e-11;
-        Vector delta = b.r.minus(a.r);
+        Vector_original delta = b.r.minus(a.r);
         double dist = delta.magnitude();
         double magnitude = (G * a.mass * b.mass) / (dist * dist);
         return delta.direction().scale(magnitude);
@@ -53,5 +53,5 @@ public class Body {
         return "position "+r.toString()+", velocity "+v.toString() + ", mass "+mass;
     }
 
-    public Vector getPosition(){ return r; }
+    public Vector_original getPosition(){ return r; }
 }

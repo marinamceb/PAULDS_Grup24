@@ -1,8 +1,14 @@
 ===== 1744151 Abel Torrabadella Vila =====
 
-- 
+- Creació de les 3 funcions (Update d'Universe, Simulate i drawUniverse de Nbodysimulator)
 
--
+-Com la Marina, seguir les passos de l'1 al 16 de l'enunciat de manera que tothom sap com arrencar el projecte.
+
+- Prova de funcionament del codi, baixar-me la configuració de la coreografia i provar que les simulacions funcionin bé.
+
+-Contestar les preguntes de resposta.txt
+
+
 
 ===== 1742588 Pol Ruiz Torras ======
 

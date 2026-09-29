@@ -7,7 +7,7 @@
  *
  *
  ******************************************************************************/
-
+package solution;
 public class Body {
     private Vector r;           // position
     private Vector v;           // velocity
@@ -38,7 +38,6 @@ public class Body {
 
     public Vector forceFrom(Body b) {
         Body a = this;
-        double G = 6.67e-11;
         Vector delta = b.r.minus(a.r);
         double dist = delta.magnitude();
         double magnitude = (G * a.mass * b.mass) / (dist * dist);

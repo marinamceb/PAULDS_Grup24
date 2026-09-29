@@ -23,7 +23,7 @@
  *
  ******************************************************************************/
 
-public class Vector { 
+public class Vector {
 
     private final int n;         // length of the vector
     private double[] data;       // array of vector's components
@@ -33,7 +33,6 @@ public class Vector {
         this.n = n;
         this.data = new double[n];
     }
-
     // create a vector from an array
     public Vector(double[] data) {
         n = data.length;

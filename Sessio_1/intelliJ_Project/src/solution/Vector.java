@@ -22,6 +22,7 @@
  *  Note that java.util.Vector is an unrelated Java library class.
  *
  ******************************************************************************/
+package solution;
 
 public class Vector { 
 

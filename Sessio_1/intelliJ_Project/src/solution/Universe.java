@@ -1,9 +1,6 @@
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Scanner;
-
 //1-REFACTORIZATION: 6. Add a new class Universe with File New Java class
 
+package solution;
 
 public class Universe {
 

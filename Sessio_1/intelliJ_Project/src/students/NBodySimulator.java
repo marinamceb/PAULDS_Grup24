@@ -62,7 +62,7 @@ public class NBodySimulator {
     //preguntar quants cossos té l'univers
     int cossos = universe.getNumBodies();
     for (int i = 0; i < cossos; i++){
-      Vector posicio = universe.getBodyPosition(i);
+      Vector_original posicio = universe.getBodyPosition(i);
       double x = posicio.cartesian(0);
       double y = posicio.cartesian(1);
       StdDraw.point(x, y);
