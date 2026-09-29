@@ -1,7 +1,7 @@
 //1-REFACTORIZATION: 6. Add a new class Universe with File New Java class
 
 package solution;
-
+import solution.integrators.Integrator;
 public class Universe {
 
   // ATTRIBUTES
@@ -46,29 +46,23 @@ public class Universe {
     numBodies = bodies.length;
   }
 
-  // 1-REFACTORIZATION: 8. Add the method void update(double dt) , empty for the moment
-  public void update(double dt) {
-    //hem de calcular la força total sobre cada cos, sumant la força que fa cada un.
-    //Moure cada cos amb aquesta força.
-
-    Vector[] f = new Vector[numBodies]; //definim un vector que té el nombre de cossos de l'espai.
-    for (int i = 0; i < numBodies; i++){ //recorrem cada cos i definim que tinguin força 0.
-      f[i] = new Vector(new double[2]);
-    }
-    //força total sobre cada cos = suma de les forces de tots els altres
-    for (int i = 0; i < numBodies; i++) {
-      for (int j = 0; j < numBodies; j++) {
-        if (i != j) {
-          f[i] = f[i].plus(bodies[i].forceFrom(bodies[j]));
-          //bodies[i].forceForm(bodies[j]) calcula la força que fa el cos j, és un objecte Vector.
-          //f[i].plus plus és un metode de Vector que suma dos vectors
-        }
+  // ENTREGA 2: força total que fan tots els altres cossos sobre el cos i
+  public Vector computeForceOn(int i) {
+    Vector f = new Vector(new double[2]); // comencem amb força (0,0)
+    for (int j = 0; j < numBodies; j++) {
+      if (i != j) {
+        f = f.plus(bodies[i].forceFrom(bodies[j]));
+        //bodies[i].forceFrom(bodies[j]) calcula la força que fa el cos j sobre el cos i
+        //f.plus suma aquesta força a la total
       }
     }
-    //ara movem els cossos
-    for (int i = 0; i < numBodies; i++) {
-      bodies[i].move(f[i], dt);
-    }
+    return f;
+  }
+
+  // 1-REFACTORIZATION: 8. Add the method void update(double dt)
+  // ENTREGA 2: l'univers es mou segons l'integrador que li passen
+  public void update(Integrator integrator) {
+    integrator.move(this); // this = aquest univers
   }
 
   // 1-REFACTORIZATION: 15. Add the missing getRadius() in Universe needed by createCanvas()
@@ -78,15 +72,15 @@ public class Universe {
 
   public int getNumBodies() { return numBodies; }
 
-  public Body[] getBodies() { return bodies; }
+  // ENTREGA 2: getters d'un cos concret (deleguen al Body)
+  public double getBodyMass(int i)         { return bodies[i].getMass(); }         // massa
+  public Vector getBodyPosition(int i)     { return bodies[i].getPosition(); }     // posició
+  public Vector getBodyVelocity(int i)     { return bodies[i].getVelocity(); }     // velocitat
+  public Vector getBodyAcceleration(int i) { return bodies[i].getAcceleration(); } // acceleració
 
-  public Vector getBodyPosition(int i){
-    return getBodies()[i].getPosition();
-  }
+  // ENTREGA 2: setters d'un cos concret (deleguen al Body)
+  public void setBodyPosition(int i, Vector pos)     { bodies[i].setPosition(pos); }     // canvia la posició
+  public void setBodyVelocity(int i, Vector vel)     { bodies[i].setVelocity(vel); }     // canvia la velocitat
+  public void setBodyAcceleration(int i, Vector acc) { bodies[i].setAcceleration(acc); } // canvia l'acceleració
 
 }
-
-
-
-
-

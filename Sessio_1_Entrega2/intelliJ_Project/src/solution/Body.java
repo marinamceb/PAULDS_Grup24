@@ -1,24 +1,17 @@
-/******************************************************************************
- *  Compilation:  javac Body.java
- *  Execution:    java Body
- *  Dependencies: Vector.java StdDraw.java
- *
- *  Implementation of a 2D Body with a position, velocity and mass.
- *
- *
- ******************************************************************************/
 package solution;
 public class Body {
-    private Vector r;           // position
-    private Vector v;           // velocity
-    private final double mass;  // mass
-    private double G;
+    private Vector r;           //posició
+    private Vector v;           //velocitat
+    private Vector a;           //acceleració
+    private final double mass;  //massa
+    private double G;           //constant gravitatòria
 
     public Body(Vector r, Vector v, double mass) {
         this.r = r;
         this.v = v;
+        this.a = new Vector(new double[2]); //acceleració inicial (0,0)
         this.mass = mass;
-        this.G = 6.67e-11; // 2- SPECIAL BODY CONFIGURATIONS
+        this.G = 6.67e-11; //configuració del cos
     }
 
     // 2- SPECIAL BODY CONFIGURATIONS
@@ -26,14 +19,9 @@ public class Body {
     public Body(Vector r, Vector v, double mass, double G) {
         this.r = r;
         this.v = v;
+        this.a = new Vector(new double[2]); //acceleració inicial (0,0)
         this.mass = mass;
         this.G = G;
-    }
-
-    public void move(Vector f, double dt) {
-        Vector a = f.scale(1/mass);
-        v = v.plus(a.scale(dt));
-        r = r.plus(v.scale(dt));
     }
 
     public Vector forceFrom(Body b) {
@@ -44,14 +32,10 @@ public class Body {
         return delta.direction().scale(magnitude);
     }
 
-/*
-    // 1-REFACTORIZATION: 5. According to the new design, remove the two draw methods in Body
-    public void draw() {
+/*    public void draw() { //aquests mètodes son per canviar la mida del cos.
         StdDraw.setPenRadius(0.025);
         StdDraw.point(r.cartesian(0), r.cartesian(1));
     }
-
-    // this method is only needed if you want to change the size of the bodies
     public void draw(double penRadius) {
         StdDraw.setPenRadius(penRadius);
         StdDraw.point(r.cartesian(0), r.cartesian(1));
@@ -63,5 +47,14 @@ public class Body {
         return "position "+r.toString()+", velocity "+v.toString() + ", mass "+mass;
     }
 
-    public Vector getPosition(){ return r; }
+    // getters
+    public Vector getPosition()     { return r; }     //posició
+    public Vector getVelocity()     { return v; }     //velocitat
+    public Vector getAcceleration() { return a; }     //acceleració
+    public double getMass()         { return mass; }  //massa
+
+    // setters
+    public void setPosition(Vector r)     { this.r = r; }  //canvia la posició
+    public void setVelocity(Vector v)     { this.v = v; }  //canvia la velocitat
+    public void setAcceleration(Vector a) { this.a = a; }  //canvia l'acceleració
 }
