@@ -13,4 +13,8 @@ public abstract class Integrator {
     // mou tots els cossos de l'univers un pas de temps
     // cada integrador ho fa a la seva manera
     public abstract void move(Universe universe);
+    // pas de temps (el necessita NBodySimulator per saber quan acabar)
+    public double getTimeStep() {
+        return timeStep;
+    }
 }

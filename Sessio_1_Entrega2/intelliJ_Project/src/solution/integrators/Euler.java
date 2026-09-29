@@ -1,7 +1,7 @@
 package solution.integrators;
 
 import solution.Universe;
-import solution.Vector;
+import solution.utils.Vector;
 
 public class Euler extends Integrator {
 

@@ -1,5 +1,7 @@
 package solution;
 
+import solution.utils.Vector;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;

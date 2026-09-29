@@ -1,4 +1,7 @@
 package solution;
+
+import solution.utils.Vector;
+
 public class Body {
     private Vector r;           //posició
     private Vector v;           //velocitat
@@ -31,16 +34,6 @@ public class Body {
         double magnitude = (G * a.mass * b.mass) / (dist * dist);
         return delta.direction().scale(magnitude);
     }
-
-/*    public void draw() { //aquests mètodes son per canviar la mida del cos.
-        StdDraw.setPenRadius(0.025);
-        StdDraw.point(r.cartesian(0), r.cartesian(1));
-    }
-    public void draw(double penRadius) {
-        StdDraw.setPenRadius(penRadius);
-        StdDraw.point(r.cartesian(0), r.cartesian(1));
-    }
-*/
 
     @Override
     public String toString() {

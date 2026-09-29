@@ -2,6 +2,8 @@
 
 package solution;
 import solution.integrators.Integrator;
+import solution.utils.Vector;
+
 public class Universe {
 
   // ATTRIBUTES
@@ -12,32 +14,6 @@ public class Universe {
   private double radius;
   private Body[] bodies;
 
-  // METHODS
-
-  // 1-REFACTORIZATION: 6. Copy the constructor
-  /*
-  public Universe(String fname){
-    try{
-      Scanner in=new Scanner(new FileReader(fname));
-      numBodies=Integer.parseInt(in.next());
-      radius=Double.parseDouble(in.next());
-      bodies=new Body[numBodies];
-      for(int i=0;i<numBodies;i++){
-        double rx = Double.parseDouble(in.next());
-        double ry = Double.parseDouble(in.next());
-        double vx = Double.parseDouble(in.next());
-        double vy = Double.parseDouble(in.next());
-        double mass = Double.parseDouble(in.next());
-        double[] position = {rx,ry};
-        double[] velocity = {vx,vy};
-        Vector r = new Vector(position);
-        Vector v = new Vector(velocity);
-        bodies[i] = new Body(r,v,mass);
-        System.out.println(bodies[i]);
-      }
-    } catch (FileNotFoundException e) {e.printStackTrace(); }
-  }
-  */
 
   // 2- SPECIAL BODY CONFIGURATIONS
   public Universe (Body[] b, double r){
@@ -82,5 +58,15 @@ public class Universe {
   public void setBodyPosition(int i, Vector pos)     { bodies[i].setPosition(pos); }     // canvia la posició
   public void setBodyVelocity(int i, Vector vel)     { bodies[i].setVelocity(vel); }     // canvia la velocitat
   public void setBodyAcceleration(int i, Vector acc) { bodies[i].setAcceleration(acc); } // canvia l'acceleració
+
+  // ENTREGA 2: posicions de tots els cossos (per als plotters)
+  //primer pas pels Plotters onlines
+  public Vector[] getAllBodiesPosition() {
+    Vector[] positions = new Vector[numBodies];
+    for (int i = 0; i < numBodies; i++) {
+      positions[i] = bodies[i].getPosition();
+    }
+    return positions;
+  }
 
 }
