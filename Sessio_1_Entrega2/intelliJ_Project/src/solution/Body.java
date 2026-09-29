@@ -1,0 +1,67 @@
+/******************************************************************************
+ *  Compilation:  javac Body.java
+ *  Execution:    java Body
+ *  Dependencies: Vector.java StdDraw.java
+ *
+ *  Implementation of a 2D Body with a position, velocity and mass.
+ *
+ *
+ ******************************************************************************/
+package solution;
+public class Body {
+    private Vector r;           // position
+    private Vector v;           // velocity
+    private final double mass;  // mass
+    private double G;
+
+    public Body(Vector r, Vector v, double mass) {
+        this.r = r;
+        this.v = v;
+        this.mass = mass;
+        this.G = 6.67e-11; // 2- SPECIAL BODY CONFIGURATIONS
+    }
+
+    // 2- SPECIAL BODY CONFIGURATIONS
+    // Constructor amb Gravetat
+    public Body(Vector r, Vector v, double mass, double G) {
+        this.r = r;
+        this.v = v;
+        this.mass = mass;
+        this.G = G;
+    }
+
+    public void move(Vector f, double dt) {
+        Vector a = f.scale(1/mass);
+        v = v.plus(a.scale(dt));
+        r = r.plus(v.scale(dt));
+    }
+
+    public Vector forceFrom(Body b) {
+        Body a = this;
+        Vector delta = b.r.minus(a.r);
+        double dist = delta.magnitude();
+        double magnitude = (G * a.mass * b.mass) / (dist * dist);
+        return delta.direction().scale(magnitude);
+    }
+
+/*
+    // 1-REFACTORIZATION: 5. According to the new design, remove the two draw methods in Body
+    public void draw() {
+        StdDraw.setPenRadius(0.025);
+        StdDraw.point(r.cartesian(0), r.cartesian(1));
+    }
+
+    // this method is only needed if you want to change the size of the bodies
+    public void draw(double penRadius) {
+        StdDraw.setPenRadius(penRadius);
+        StdDraw.point(r.cartesian(0), r.cartesian(1));
+    }
+*/
+
+    @Override
+    public String toString() {
+        return "position "+r.toString()+", velocity "+v.toString() + ", mass "+mass;
+    }
+
+    public Vector getPosition(){ return r; }
+}
