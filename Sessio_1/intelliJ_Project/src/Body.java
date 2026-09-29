@@ -52,4 +52,6 @@ public class Body {
     public String toString() {
         return "position "+r.toString()+", velocity "+v.toString() + ", mass "+mass;
     }
+
+    public Vector getPosition(){ return r; }
 }

@@ -70,6 +70,14 @@ public class Universe {
     return radius;
   }
 
+  public int getNumBodies() { return numBodies; }
+
+  public Body[] getBodies() { return bodies; }
+
+  public Vector getBodyPosition(int i){
+    return getBodies()[i].getPosition();
+  }
+
 }
 
 
