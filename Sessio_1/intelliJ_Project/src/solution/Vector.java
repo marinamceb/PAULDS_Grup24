@@ -1,3 +1,5 @@
+package Solution;
+
 /******************************************************************************
  *  Compilation:  javac Vector.java
  *  Execution:    java Vector
@@ -22,26 +24,25 @@
  *  Note that java.util.Vector is an unrelated Java library class.
  *
  ******************************************************************************/
-package solution;
 
 public class Vector { 
 
-    private final int n;         // length of the vector
+    private final int length;         // length of the vector
     private double[] data;       // array of vector's components
 
     // create the zero vector of length n
-    public Vector(int n) {
-        this.n = n;
-        this.data = new double[n];
+    public Vector(int length) {
+        this.length = length;
+        this.data = new double[length];
     }
 
     // create a vector from an array
     public Vector(double[] data) {
-        n = data.length;
+        length = data.length;
 
         // defensive copy so that client can't alter our copy of data[]
-        this.data = new double[n];
-        for (int i = 0; i < n; i++)
+        this.data = new double[length];
+        for (int i = 0; i < length; i++)
             this.data[i] = data[i];
     }
 
@@ -62,7 +63,7 @@ public class Vector {
 */
     // return the length of the vector
     public int length() {
-        return n;
+        return length;
     }
 
     // return the inner product of this Vector a and b
@@ -70,7 +71,7 @@ public class Vector {
         if (this.length() != that.length())
             throw new IllegalArgumentException("dimensions disagree");
         double sum = 0.0;
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < length; i++)
             sum = sum + (this.data[i] * that.data[i]);
         return sum;
     }
@@ -91,8 +92,8 @@ public class Vector {
     public Vector plus(Vector that) {
         if (this.length() != that.length())
             throw new IllegalArgumentException("dimensions disagree");
-        Vector c = new Vector(n);
-        for (int i = 0; i < n; i++)
+        Vector c = new Vector(length);
+        for (int i = 0; i < length; i++)
             c.data[i] = this.data[i] + that.data[i];
         return c;
     }
@@ -101,8 +102,8 @@ public class Vector {
     public Vector minus(Vector that) {
         if (this.length() != that.length())
             throw new IllegalArgumentException("dimensions disagree");
-        Vector c = new Vector(n);
-        for (int i = 0; i < n; i++)
+        Vector c = new Vector(length);
+        for (int i = 0; i < length; i++)
             c.data[i] = this.data[i] - that.data[i];
         return c;
     }
@@ -115,16 +116,16 @@ public class Vector {
     // create and return a new object whose value is (this * factor)
     @Deprecated
     public Vector times(double factor) {
-        Vector c = new Vector(n);
-        for (int i = 0; i < n; i++)
+        Vector c = new Vector(length);
+        for (int i = 0; i < length; i++)
             c.data[i] = factor * data[i];
         return c;
     }
 
     // create and return a new object whose value is (this * factor)
     public Vector scale(double factor) {
-        Vector c = new Vector(n);
-        for (int i = 0; i < n; i++)
+        Vector c = new Vector(length);
+        for (int i = 0; i < length; i++)
             c.data[i] = factor * data[i];
         return c;
     }
@@ -141,9 +142,9 @@ public class Vector {
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append('(');
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < length; i++) {
             s.append(data[i]);
-            if (i < n-1) s.append(", ");
+            if (i < length -1) s.append(", ");
         }
         s.append(')');
         return s.toString();

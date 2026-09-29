@@ -1,4 +1,4 @@
-package solution;
+package Solution;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -16,16 +16,16 @@ public class UniverseFactory {
       double radius = Double.parseDouble(in.next());
       Body[] bodies = new Body[numBodies];
       for (int i = 0; i < numBodies; i++) {
-        double rx = Double.parseDouble(in.next());
-        double ry = Double.parseDouble(in.next());
-        double vx = Double.parseDouble(in.next());
-        double vy = Double.parseDouble(in.next());
+        double posx = Double.parseDouble(in.next());
+        double posy = Double.parseDouble(in.next());
+        double velx = Double.parseDouble(in.next());
+        double vely = Double.parseDouble(in.next());
         double mass = Double.parseDouble(in.next());
-        double[] position = {rx, ry};
-        double[] velocity = {vx, vy};
-        Vector r = new Vector(position);
-        Vector v = new Vector(velocity);
-        bodies[i] = new Body(r, v, mass);
+        double[] position = {posx, posy};
+        double[] velocity = {velx, vely};
+        Vector pos = new Vector(position);
+        Vector vel = new Vector(velocity);
+        bodies[i] = new Body(pos, vel, mass);
         System.out.println(bodies[i]);
       }
       in.close();
@@ -47,12 +47,12 @@ public class UniverseFactory {
 
     for (int i = 0; i < numBodies; i++) {
       double anglePos = (2 * Math.PI * i) / numBodies;
-      double rx = DISTANCE * Math.cos(anglePos);
-      double ry = DISTANCE * Math.sin(anglePos);
-      double vx = velocityMagnitude * Math.cos(anglePos + angleVelPos);
-      double vy = velocityMagnitude * Math.sin(anglePos + angleVelPos);
-      bodies[i] = new Body(new Vector(new double[]{rx, ry}),
-          new Vector(new double[]{vx, vy}), MASS);
+      double pox = DISTANCE * Math.cos(anglePos);
+      double posy = DISTANCE * Math.sin(anglePos);
+      double velx = velocityMagnitude * Math.cos(anglePos + angleVelPos);
+      double vely = velocityMagnitude * Math.sin(anglePos + angleVelPos);
+      bodies[i] = new Body(new Vector(new double[]{pox, posy}),
+          new Vector(new double[]{velx, vely}), MASS);
     }
 
     return new Universe(bodies, RADIUS);
@@ -84,20 +84,20 @@ public class UniverseFactory {
       double angle = randomBetween(-Math.PI, Math.PI);
       double rho = randomBetween(RADIUS / 4, RADIUS / 2);
 
-      double rx = Math.cos(angle) * rho;
-      double ry = Math.sin(angle) * rho;
+      double posx = Math.cos(angle) * rho;
+      double posy = Math.sin(angle) * rho;
 
-      double vx = -ry / 1000. + randomBetween(MIN_VELOCITY, MAX_VELOCITY);
-      double vy = rx / 1000. + randomBetween(MIN_VELOCITY, MAX_VELOCITY);
+      double velx = -posy / 1000. + randomBetween(MIN_VELOCITY, MAX_VELOCITY);
+      double vely = posx / 1000. + randomBetween(MIN_VELOCITY, MAX_VELOCITY);
 
       double mass = randomBetween(MIN_MASS, MAX_MASS);
 
-      double[] position = {rx, ry};
-      double[] velocity = {vx, vy};
-      Vector r = new Vector(position);
+      double[] position = {posx, posy};
+      double[] velocity = {velx, vely};
+      Vector pos = new Vector(position);
       Vector v = new Vector(velocity);
 
-      bodies[i] = new Body(r, v, mass);
+      bodies[i] = new Body(pos, v, mass);
     }
     return new Universe(bodies, RADIUS);
   }

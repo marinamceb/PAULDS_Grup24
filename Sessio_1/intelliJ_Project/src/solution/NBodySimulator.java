@@ -1,4 +1,4 @@
-package solution;
+package Solution;
 
 // 1-REFACTORIZATION: 9. Add a new class NBodySimulator
 public class NBodySimulator {
@@ -15,9 +15,9 @@ public class NBodySimulator {
   /* METHODS */
 
   // 1-REFACTORIZATION: 9. Add the constructor
-  public NBodySimulator(Universe universe, double dt, int pt, boolean doTrace) {
+  public NBodySimulator(Universe universe, double timeStep, int pt, boolean doTrace) {
     this.universe = universe;
-    timeStep = dt;
+    this.timeStep = timeStep;
     pauseTime = pt;
     trace = doTrace;
   }
@@ -60,6 +60,13 @@ public class NBodySimulator {
   // 1-REFACTORIZATION: 16. create in NBodySimulator an method drawUniverse() , empty for the moment
   // (and void, private, according to the design)
   private void drawUniverse() {
+    // TODO : get the position (a Vector) of each body in universe
+    // and plot it with StdDraw.point(x,y). A Vector v returns its coordinates
+    // with v.cartesian(0) and v.cartesian(1)
+    // For this we need to ask to a Universe its number of bodies n
+    // and the position of the i-th body, i=0...n-1. Also, a Body
+    // must have a getPosition() method
+
     //preguntar quants cossos té l'univers
     int cossos = universe.getNumBodies();
     for (int i = 0; i < cossos; i++){

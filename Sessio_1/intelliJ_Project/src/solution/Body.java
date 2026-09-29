@@ -1,3 +1,5 @@
+package Solution;
+
 /******************************************************************************
  *  Compilation:  javac Body.java
  *  Execution:    java Body
@@ -7,38 +9,39 @@
  *
  *
  ******************************************************************************/
-package solution;
+
 public class Body {
-    private Vector r;           // position
-    private Vector v;           // velocity
+    private Vector position;           // position
+    private Vector velocity;           // velocity
     private final double mass;  // mass
     private double G;
 
-    public Body(Vector r, Vector v, double mass) {
-        this.r = r;
-        this.v = v;
+    public Body(Vector position, Vector velocity, double mass) {
+        this.position = position;
+        this.velocity = velocity;
         this.mass = mass;
         this.G = 6.67e-11; // 2- SPECIAL BODY CONFIGURATIONS
     }
 
     // 2- SPECIAL BODY CONFIGURATIONS
     // Constructor amb Gravetat
-    public Body(Vector r, Vector v, double mass, double G) {
-        this.r = r;
-        this.v = v;
+    public Body(Vector position, Vector velocity, double mass, double G) {
+        this.position = position;
+        this.velocity = velocity;
         this.mass = mass;
         this.G = G;
     }
 
-    public void move(Vector f, double dt) {
-        Vector a = f.scale(1/mass);
-        v = v.plus(a.scale(dt));
-        r = r.plus(v.scale(dt));
+    public void move(Vector bodies_vector, double timeStep) {
+        Vector a = bodies_vector.scale(1/mass);
+        velocity = velocity.plus(a.scale(timeStep));
+        position = position.plus(velocity.scale(timeStep));
     }
 
     public Vector forceFrom(Body b) {
         Body a = this;
-        Vector delta = b.r.minus(a.r);
+        double G = 6.67e-11;
+        Vector delta = b.position.minus(a.position);
         double dist = delta.magnitude();
         double magnitude = (G * a.mass * b.mass) / (dist * dist);
         return delta.direction().scale(magnitude);
@@ -58,10 +61,10 @@ public class Body {
     }
 */
 
+    public Vector getPosition(){ return position; }
+
     @Override
     public String toString() {
-        return "position "+r.toString()+", velocity "+v.toString() + ", mass "+mass;
+        return "position "+ position.toString()+", velocity "+ velocity.toString() + ", mass "+mass;
     }
-
-    public Vector getPosition(){ return r; }
 }

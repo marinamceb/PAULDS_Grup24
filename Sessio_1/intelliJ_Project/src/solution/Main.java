@@ -1,17 +1,14 @@
+package Solution;
 
 // 1-REFACTORIZATION: 12. Switch to class Main . We are going to fill-in the main() with some code that gets
 // the parameters for execution but only to test the creation of the Universe object
 // and its bodies.
-
-package solution;
-
 public class Main {
-
   public static void main(String[] args) {
 
     /* ==========================
     args:
-    * [0] = double dt
+    * [0] = double timeStep
     * [1] = int pauseTime
     * [2] = String trace
     * [3] = String config
@@ -23,7 +20,7 @@ public class Main {
     int numargs = args.length;
     assert numargs >= 4 : "invalid number of arguments";
 
-    double dt = Double.parseDouble(args[0]);
+    double timeStep = Double.parseDouble(args[0]);
     int pauseTime = Integer.parseInt(args[1]);
     boolean trace = args[2].toLowerCase().equals("trace");
 
@@ -57,7 +54,7 @@ public class Main {
         break;
     }
 
-    NBodySimulator simulator = new NBodySimulator(universe, dt, pauseTime, trace);
+    NBodySimulator simulator = new NBodySimulator(universe, timeStep, pauseTime, trace);
     simulator.simulate();
   }
 }

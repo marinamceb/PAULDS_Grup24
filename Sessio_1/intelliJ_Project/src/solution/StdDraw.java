@@ -1,4 +1,4 @@
-/******************************************************************************
+package Solution; /******************************************************************************
  *  Compilation:  javac StdDraw.java
  *  Execution:    java StdDraw
  *  Dependencies: none
@@ -21,7 +21,6 @@
  *       images and strings
  *
  ******************************************************************************/
-package solution;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

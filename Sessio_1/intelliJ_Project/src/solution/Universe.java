@@ -1,7 +1,6 @@
+package Solution;
+
 //1-REFACTORIZATION: 6. Add a new class Universe with File New Java class
-
-package solution;
-
 public class Universe {
 
   // ATTRIBUTES
@@ -40,34 +39,34 @@ public class Universe {
   */
 
   // 2- SPECIAL BODY CONFIGURATIONS
-  public Universe (Body[] b, double r){
-    bodies = b;
-    radius = r;
-    numBodies = bodies.length;
+  public Universe (Body[] bodies, double radius){
+    this.bodies = bodies;
+    this.radius = radius;
+    numBodies = this.bodies.length;
   }
 
-  // 1-REFACTORIZATION: 8. Add the method void update(double dt) , empty for the moment
-  public void update(double dt) {
+  // 1-REFACTORIZATION: 8. Add the method void update(double timeStep) , empty for the moment
+  public void update(double timeStep) {
     //hem de calcular la força total sobre cada cos, sumant la força que fa cada un.
     //Moure cada cos amb aquesta força.
 
-    Vector[] f = new Vector[numBodies]; //definim un vector que té el nombre de cossos de l'espai.
-    for (int i = 0; i < numBodies; i++){ //recorrem cada cos i definim que tinguin força 0.
-      f[i] = new Vector(new double[2]);
+    Vector[] bodies_vector = new Vector[numBodies]; //definim un vector que té el nombre de cossos de l'espai.
+    for (int pos = 0; pos < numBodies; pos++){ //recorrem cada cos pos definim que tinguin força 0.
+      bodies_vector[pos] = new Vector(new double[2]);
     }
     //força total sobre cada cos = suma de les forces de tots els altres
     for (int i = 0; i < numBodies; i++) {
       for (int j = 0; j < numBodies; j++) {
         if (i != j) {
-          f[i] = f[i].plus(bodies[i].forceFrom(bodies[j]));
+          bodies_vector[i] = bodies_vector[i].plus(bodies[i].forceFrom(bodies[j]));
           //bodies[i].forceForm(bodies[j]) calcula la força que fa el cos j, és un objecte Vector.
-          //f[i].plus plus és un metode de Vector que suma dos vectors
+          //bodies_vector[i].plus plus és un metode de Vector que suma dos vectors
         }
       }
     }
     //ara movem els cossos
     for (int i = 0; i < numBodies; i++) {
-      bodies[i].move(f[i], dt);
+      bodies[i].move(bodies_vector[i], timeStep);
     }
   }
 
@@ -80,10 +79,9 @@ public class Universe {
 
   public Body[] getBodies() { return bodies; }
 
-  public Vector getBodyPosition(int i){
-    return getBodies()[i].getPosition();
+  public Vector getBodyPosition(int i) {
+    return bodies[i].getPosition();
   }
-
 }
 
 
