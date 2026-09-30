@@ -17,6 +17,8 @@
 
 - Canviar el nom a les variables menys descriptives (renombrament de variables) per donar-los-hi noms més entenedors
 
+- Generació del diagrama UML
+
 
 ===== 1747437 Marina Martín Cebrián =====
 
