@@ -1,43 +1,44 @@
-i. which GRASP patterns / design principles are we applying in doing the
-refactoring ?
-Fem us dels seguents patrons:
-	-Expert
-	-Alta cohesió
-	-Baix acoblament
-	-No parlis amb extrangers
-	-Creador
-	-No et repeteixis
-	-Amaga informacio
+Resposta slide 12:
+
+What does an integrator do, in a sentence ?
+Un integrador fa avançar tots els cossos un determinat temps i per tant també calcula i actualitza les noves posicions i velocitats.
+
+What data do they have in common ?
+El que tenen en comú es que neceisiten saber quant dura cada salt, per aixo timeStep esta protected, perque tothom hi pugui accedir.
+
+Who should create an integrator ?
+Ho hauria de crear Main perquè és qui llegeix els arguments de la línia de comandes i per tant sap quin integrador ha triat l'usuari, si euler o LeapFrog
+
+Who needs it ?
+El Main ho passa al simulador per tant ho necesita el simulador.
+
+How to add a new integrator ?
+En cas de que volguesim crear un nou integrador hauriem de crear una nova clase dins del paquet Integrators.
+També haurem d'afegir una clase al main, les demes clases no caldrà tocar-les.
 
 
-ii. answer to questions of slide #37
+Resposta slide 20:
+How many plotters do we have ?
+En tenim 2.
+Podem fer-ho de la manera Online i Offline, un dibuixa els cossos mentre els calcula i l'offline en canvi no dibuixa res, escriu dades en un fitxer de text les quals hem de representar amb un programa amb python que ho entengui.
 
-	Pros i contres de cada una de les opcions:
-	Opcio 1:
-		Pros: És la solució més senzilla, no calen classes noves
-		Contres: Universe perd cohesió, cada nova configuració obliga a modificar 				Universe, Els constructors no tenen nom i només poden ser distingits pel 			tipus de paràmetre.
-
-	Opcio 2:
-		Pros: Per cada configuració queda en la seva pròpia clase, i afegir-ne una de 				nova es afegir una clase snese tocar les altres.
-		Contres: Mal us de l'herencia, Genera moltes clases petites practicament buides, 			un objecte no pot canviar de clase i la jerarquia queda lligada a la 				manera de crear-lo.
-	Opcio 3:
-		Pros: Alta cohesió: Universe unicament s'ocupa de l'estat i de la fisica,
-			UniverseFactory només crea diferents universos.
-			Els mètodes tenen noms descriptius, afegir na configuració nova 				unicament canvia UniverseFactory i no Universe.
-  		Contres: Cada configuracio nova obliga a modificar UniverseFactory, els metodes 			son estatics, i per tant no es poden substituir polimorficament. Si hi h			ha moltes configuracions, la factoria pot creixer molt.
-En resum, la millor opció és la 3.
+What do they have in common ?
+Els dos segueixen els mateixos passos tot i ser molt diferents, primer un obra la finestra, offline en canvi obre el fitxer.
+A cada moviment reben les posicions i les esciuen, ja sigui per pantalla o en format text.
+Al final acaben.
 
 
-iii. how have you designed the extension of special configurations ?
+What goes into start() and stop() ?
+Els dos plotters tenen start i stop: Start té el que s'ha de preparar abans de començar mentre que stop té el que fa al acabar.
+Per l'online l'Start crea el canvas, fixa la mida dels punts... Mentre que l'Stop d'online no fa res però l'ha de tenir perque ho implementa la interficie del Plotter.
+Mentre que per l'Offline crea el fitxer i el tanca.
 
-Hem escullit la opció 3 amb una clase UniverseFactory que té un mètode estatic per a cada configuració.
-createFromFile - Llegeix els cossos d'un fitxer de text (original)
-createCentralConfiguration - La central, tots els punts es dirigeixen cap al mig i llevors surten cap a fora.
-randomBetween - Aleatori
-createPlanetaryConfiguration - El planetari potser és el més caotic
-createChoreography - aquest es la coreografica en forma de 8
+Who instantiates a plotter ? And an integrator ?
+Tant els Plotters com l'Integrador els fa el Main perquè és qui llegeix els arguments de la linia de comandes com he explicat anteriorment.
 
-Cada mètode construeix l'array de Body i retorna un Universe creat amb el nou constructor Universe. Així Universe ja no sap d'on venen els seus cossos.
+Who needs it ?
+Doncs ho necesita NbodySimulator per poder arrencar la simulació.
 
-Main tria la configuració segons l'argument args[3] i llegeix els paràmetres específics de cada una a partir d'args[4]. 
-Després crea el NBodySimulator igual que abans, independentment de la configuració.
+How to add a new type of plotter ?
+Per afegir un nou plotter simplement s'ha de crear una nova clase al paquet plotters que implementi la interficie del Plotter (start, stop, draw...)
+
