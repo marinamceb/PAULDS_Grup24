@@ -1,149 +1,111 @@
 @startuml
 ' N-body simulation - Entrega 2
-' Diagrama de classes del disseny amb integradors i plotters
 
 skinparam classAttributeIconSize 0
 skinparam packageStyle rectangle
-skinparam linetype ortho
 hide empty members
 
-package solution {
+class Main {
+  + {static} main(args : String[])
+}
 
-  class Main {
-    + {static} main(args : String[])
+class NBodySimulator {
+  + NBodySimulator(universe : Universe, plotter : Plotter, integrator : Integrator)
+  + simulate(initTime : double, endTime : double)
+  + simulate()
+}
+
+class UniverseFactory {
+  + {static} createFromFile(fname : String) : Universe
+  + {static} createCentralConfiguration(numBodies : int, angleVelPos : double) : Universe
+  + {static} createPlanetaryConfiguration(numPlanets : int) : Universe
+  + {static} createChoreography(nchoreography : int) : Universe
+  - {static} randomBetween(min : double, max : double) : double
+}
+
+class Universe {
+  - numBodies : int
+  - radius : double
+  + Universe(bodies : Body[], radius : double)
+  + computeForceOn(i : int) : Vector
+  + update(integrator : Integrator)
+  + getAllBodiesPosition() : Vector[]
+  + getRadius() : double
+  + getNumBodies() : int
+
+  + getBodyMass(i : int) : double
+  + getBodyPosition(i : int) : Vector
+  + getBodyVelocity(i : int) : Vector
+  + getBodyAcceleration(i : int) : Vector
+
+  + setBodyPosition(i : int, pos : Vector)
+  + setBodyVelocity(i : int, vel : Vector)
+  + setBodyAcceleration(i : int, acc : Vector)
+}
+
+class Body {
+  - r : Vector
+  - v : Vector
+  - a : Vector
+  - mass : double
+  - G : double
+  + Body(r : Vector, v : Vector, mass : double, G : double)
+  + forceFrom(b : Body) : Vector
+  + toString() : String
+}
+
+package integrators {
+  abstract class Integrator {
+    # timeStep : double
+    + Integrator(timeStep : double)
+    + getTimeStep() : double
+    + {abstract} move(universe : Universe)
   }
-
-  class NBodySimulator {
-    + NBodySimulator(universe : Universe, plotter : Plotter, integrator : Integrator)
-    + simulate(initTime : double, endTime : double)
-    + simulate()
+  class Euler {
+    + Euler(timeStep : double)
+    + move(universe : Universe)
   }
-
-  class UniverseFactory {
-    + {static} createFromFile(fname : String) : Universe
-    + {static} createCentralConfiguration(numBodies : int, angleVelPos : double) : Universe
-    + {static} createPlanetaryConfiguration(numPlanets : int) : Universe
-    + {static} createChoreography(nchoreography : int) : Universe
-    - {static} randomBetween(min : double, max : double) : double
-  }
-
-  class Universe {
-    - numBodies : int
-    - radius : double
-    + Universe(bodies : Body[], radius : double)
-    + computeForceOn(i : int) : Vector
-    + update(integrator : Integrator)
-    + getAllBodiesPosition() : Vector[]
-    + getRadius() : double
-    + getNumBodies() : int
-    + getBodyMass(i : int) : double
-    + getBodyPosition(i : int) : Vector
-    + getBodyVelocity(i : int) : Vector
-    + getBodyAcceleration(i : int) : Vector
-    + setBodyPosition(i : int, pos : Vector)
-    + setBodyVelocity(i : int, vel : Vector)
-    + setBodyAcceleration(i : int, acc : Vector)
-  }
-
-  class Body {
-    - r : Vector
-    - v : Vector
-    - a : Vector
-    - mass : double
-    - G : double
-    + Body(r : Vector, v : Vector, mass : double)
-    + Body(r : Vector, v : Vector, mass : double, G : double)
-    + forceFrom(b : Body) : Vector
-    + getPosition() : Vector
-    + getVelocity() : Vector
-    + getAcceleration() : Vector
-    + getMass() : double
-    + setPosition(r : Vector)
-    + setVelocity(v : Vector)
-    + setAcceleration(a : Vector)
-    + toString() : String
-  }
-
-  package integrators {
-    abstract class Integrator {
-      # timeStep : double
-      + Integrator(timeStep : double)
-      + getTimeStep() : double
-      + {abstract} move(universe : Universe)
-    }
-
-    class Euler {
-      + Euler(timeStep : double)
-      + move(universe : Universe)
-    }
-
-    class LeapFrog {
-      + LeapFrog(timeStep : double)
-      + move(universe : Universe)
-    }
-  }
-
-  package plotters {
-    interface Plotter {
-      + start()
-      + draw(positions : Vector[])
-      + stop()
-    }
-
-    class Online {
-      - trace : boolean
-      - radius : double
-      - pauseTime : int
-      - previousPositions : Vector[]
-      + Online(trace : boolean, radius : double, pauseTime : int)
-      + start()
-      + draw(bodiesPosition : Vector[])
-      + stop()
-      - createCanvas()
-      - drawBodies(bodiesPosition : Vector[])
-    }
-
-    class Offline {
-      - fname : String
-      - numBodies : int
-      - printWriter : PrintWriter
-      + Offline(fname : String, numBodies : int)
-      + start()
-      + draw(bodiesPosition : Vector[])
-      + stop()
-    }
-  }
-
-  package util {
-    class Vector
-    class StdDraw
-    hide Vector members
-    hide StdDraw members
+  class LeapFrog {
+    + LeapFrog(timeStep : double)
+    + move(universe : Universe)
   }
 }
 
-' --- Relacions estructurals ---
+package plotters {
+  interface Plotter {
+    + start()
+    + draw(positions : Vector[])
+    + stop()
+  }
+  class Online {
+    - trace : boolean
+    - radius : double
+    - pauseTime : int
+    + Online(trace : boolean, radius : double, pauseTime : int)
+    + start()
+    + draw(bodiesPosition : Vector[])
+    + stop()
+    - createCanvas()
+    - drawBodies(bodiesPosition : Vector[])
+  }
+  class Offline {
+    - fname : String
+    - numBodies : int
+    + Offline(fname : String, numBodies : int)
+    + start()
+    + draw(bodiesPosition : Vector[])
+    + stop()
+  }
+}
+
 NBodySimulator --> "1" Universe : universe
 NBodySimulator --> "1" Integrator : integrator
 NBodySimulator --> "1" Plotter : plotter
 Universe *--> "1..*" Body : bodies
 
-' --- Herència i implementació ---
 Integrator <|-- Euler
 Integrator <|-- LeapFrog
 Plotter <|.. Online
 Plotter <|.. Offline
-
-' --- Dependències (creació i ús) ---
-Main ..> UniverseFactory : <<use>>
-Main ..> NBodySimulator : <<create>>
-Main ..> Euler : <<create>>
-Main ..> LeapFrog : <<create>>
-Main ..> Online : <<create>>
-Main ..> Offline : <<create>>
-UniverseFactory ..> Universe : <<create>>
-UniverseFactory ..> Body : <<create>>
-Integrator ..> Universe : <<use>>
-Online ..> StdDraw : <<use>>
 
 @enduml
