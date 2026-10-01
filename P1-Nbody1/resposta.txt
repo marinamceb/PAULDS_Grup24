@@ -1,0 +1,43 @@
+i. which GRASP patterns / design principles are we applying in doing the
+refactoring ?
+Fem us dels seguents patrons:
+	-Expert
+	-Alta cohesió
+	-Baix acoblament
+	-No parlis amb extrangers
+	-Creador
+	-No et repeteixis
+	-Amaga informacio
+
+
+ii. answer to questions of slide #37
+
+	Pros i contres de cada una de les opcions:
+	Opcio 1:
+		Pros: És la solució més senzilla, no calen classes noves
+		Contres: Universe perd cohesió, cada nova configuració obliga a modificar 				Universe, Els constructors no tenen nom i només poden ser distingits pel 			tipus de paràmetre.
+
+	Opcio 2:
+		Pros: Per cada configuració queda en la seva pròpia clase, i afegir-ne una de 				nova es afegir una clase snese tocar les altres.
+		Contres: Mal us de l'herencia, Genera moltes clases petites practicament buides, 			un objecte no pot canviar de clase i la jerarquia queda lligada a la 				manera de crear-lo.
+	Opcio 3:
+		Pros: Alta cohesió: Universe unicament s'ocupa de l'estat i de la fisica,
+			UniverseFactory només crea diferents universos.
+			Els mètodes tenen noms descriptius, afegir na configuració nova 				unicament canvia UniverseFactory i no Universe.
+  		Contres: Cada configuracio nova obliga a modificar UniverseFactory, els metodes 			son estatics, i per tant no es poden substituir polimorficament. Si hi h			ha moltes configuracions, la factoria pot creixer molt.
+En resum, la millor opció és la 3.
+
+
+iii. how have you designed the extension of special configurations ?
+
+Hem escullit la opció 3 amb una clase UniverseFactory que té un mètode estatic per a cada configuració.
+createFromFile - Llegeix els cossos d'un fitxer de text (original)
+createCentralConfiguration - La central, tots els punts es dirigeixen cap al mig i llevors surten cap a fora.
+randomBetween - Aleatori
+createPlanetaryConfiguration - El planetari potser és el més caotic
+createChoreography - aquest es la coreografica en forma de 8
+
+Cada mètode construeix l'array de Body i retorna un Universe creat amb el nou constructor Universe. Així Universe ja no sap d'on venen els seus cossos.
+
+Main tria la configuració segons l'argument args[3] i llegeix els paràmetres específics de cada una a partir d'args[4]. 
+Després crea el NBodySimulator igual que abans, independentment de la configuració.

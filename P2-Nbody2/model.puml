@@ -1,0 +1,111 @@
+@startuml
+' N-body simulation - Entrega 2
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+hide empty members
+
+class Main {
+  + {static} main(args : String[])
+}
+
+class NBodySimulator {
+  + NBodySimulator(universe : Universe, plotter : Plotter, integrator : Integrator)
+  + simulate(initTime : double, endTime : double)
+  + simulate()
+}
+
+class UniverseFactory {
+  + {static} createFromFile(fname : String) : Universe
+  + {static} createCentralConfiguration(numBodies : int, angleVelPos : double) : Universe
+  + {static} createPlanetaryConfiguration(numPlanets : int) : Universe
+  + {static} createChoreography(nchoreography : int) : Universe
+  - {static} randomBetween(min : double, max : double) : double
+}
+
+class Universe {
+  - numBodies : int
+  - radius : double
+  + Universe(bodies : Body[], radius : double)
+  + computeForceOn(i : int) : Vector
+  + update(integrator : Integrator)
+  + getAllBodiesPosition() : Vector[]
+  + getRadius() : double
+  + getNumBodies() : int
+
+  + getBodyMass(i : int) : double
+  + getBodyPosition(i : int) : Vector
+  + getBodyVelocity(i : int) : Vector
+  + getBodyAcceleration(i : int) : Vector
+
+  + setBodyPosition(i : int, pos : Vector)
+  + setBodyVelocity(i : int, vel : Vector)
+  + setBodyAcceleration(i : int, acc : Vector)
+}
+
+class Body {
+  - r : Vector
+  - v : Vector
+  - a : Vector
+  - mass : double
+  - G : double
+  + Body(r : Vector, v : Vector, mass : double, G : double)
+  + forceFrom(b : Body) : Vector
+  + toString() : String
+}
+
+package integrators {
+  abstract class Integrator {
+    # timeStep : double
+    + Integrator(timeStep : double)
+    + getTimeStep() : double
+    + {abstract} move(universe : Universe)
+  }
+  class Euler {
+    + Euler(timeStep : double)
+    + move(universe : Universe)
+  }
+  class LeapFrog {
+    + LeapFrog(timeStep : double)
+    + move(universe : Universe)
+  }
+}
+
+package plotters {
+  interface Plotter {
+    + start()
+    + draw(positions : Vector[])
+    + stop()
+  }
+  class Online {
+    - trace : boolean
+    - radius : double
+    - pauseTime : int
+    + Online(trace : boolean, radius : double, pauseTime : int)
+    + start()
+    + draw(bodiesPosition : Vector[])
+    + stop()
+    - createCanvas()
+    - drawBodies(bodiesPosition : Vector[])
+  }
+  class Offline {
+    - fname : String
+    - numBodies : int
+    + Offline(fname : String, numBodies : int)
+    + start()
+    + draw(bodiesPosition : Vector[])
+    + stop()
+  }
+}
+
+NBodySimulator --> "1" Universe : universe
+NBodySimulator --> "1" Integrator : integrator
+NBodySimulator --> "1" Plotter : plotter
+Universe *--> "1..*" Body : bodies
+
+Integrator <|-- Euler
+Integrator <|-- LeapFrog
+Plotter <|.. Online
+Plotter <|.. Offline
+
+@enduml

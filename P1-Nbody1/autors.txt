@@ -1,0 +1,29 @@
+===== 1744151 Abel Torrabadella Vila =====
+
+- Creació de les 3 funcions (Update d'Universe, Simulate i drawUniverse de Nbodysimulator)
+
+- Com la Marina, seguir les passos de l'1 al 16 de l'enunciat de manera que tothom sap com arrencar el projecte.
+
+- Prova de funcionament del codi, baixar-me la configuració de la coreografia i provar que les simulacions funcionin bé.
+
+- Contestar les preguntes de resposta.txt
+
+
+===== 1742588 Pol Ruiz Torras ======
+
+- Com la Marina, seguir les passos de l'1 al 16 de l'enunciat per tal de saber com funciona el projecte.
+
+- Implementació del mètode public void simulate() a la classe NBodySimulator, encarregat de netejar la pantalla, moure els cossos, dibuixar-los i mostrar el resultat
+
+- Canviar el nom a les variables menys descriptives (renombrament de variables) per donar-los-hi noms més entenedors
+
+- Generació del diagrama UML
+
+
+===== 1747437 Marina Martín Cebrián =====
+
+- Apartat “1-Refactorization”: organització dels fitxers del projecte i seguiment dels passos de l’1 al 16 de l’enunciat.
+
+- Implementació del mètode public void update(double dt) a la classe Universe, encarregat de calcular les forces sobre els cossos i actualitzar-ne la posició.
+
+- Implementació de les configuracions especials amb l'opció de crear una classe UniverseFactory. 

@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="leapfrog_coreo" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="solution.Main" />
+    <module name="Problema1_DS" />
+    <option name="PROGRAM_PARAMETERS" value="0.005 leapfrog online 10 trace choreography 1" />
+    <option name="VM_PARAMETERS" value="-ea" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
