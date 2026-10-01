@@ -1,0 +1,15 @@
+===== 1744151 Abel Torrabadella Vila =====
+- Crear i provar Integradors (Euler, LeapFrog) fer proves i crear diferents execucions.
+  Provar tant per online com offline, fer fitxer python per poder fer gràfics.
+- Respondre respostes.txt
+
+===== 1742588 Pol Ruiz Torras ======
+- Interficie del Plotter, classes Online i Offline.
+- NBodySimulator: treure el dibuix i afegir simulate.
+- Fer diagrama UML
+
+===== 1747437 Marina Martín Cebrián =====
+
+- Main: nous arguments per triar integrador i plotter
+- Organitzar els paquets i fer proves.
+- Adaptar el Body i universe: Acceleració, getters i setters.
