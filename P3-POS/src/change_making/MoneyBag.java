@@ -18,8 +18,8 @@ public class MoneyBag {
     return money;
   }
   public void add(double value, int count) { // Afegeix diners a la bossa
-    int currentCount = money.getOrDefault(value, 0); // Retorna la cantitat de diners que hi ha a la bossa amb el valor "value"
-    money.put(value, currentCount + count); // Suma la cantitat de diners amb valor "value" a la bossa
+    int currentCount = money.getOrDefault(value, 0); // Retorna la quantitat de diners que hi ha a la bossa amb el valor "value"
+    money.put(value, currentCount + count); // Suma la quantitat de diners amb valor "value" a la bossa
   }
   public void add(MoneyBag moneyBag) { // Afegeix diners a la bossa
     for (Map.Entry<Double, Integer> entry : moneyBag.getMoney().entrySet()) { // Recorre tots els elements de moneyBag
@@ -29,15 +29,15 @@ public class MoneyBag {
   public void subtract(MoneyBag moneyBag) { // Extreu diners a la bossa
     for (Map.Entry<Double, Integer> entry : moneyBag.getMoney().entrySet()) { // Recorre tots els elements de moneyBag
       double entryValue = entry.getKey(); // Valor del bitllet o moneda iterat
-      int countToSubtract = entry.getValue(); // Cantitat d'aquell valor a restar
-      int currentCount = money.getOrDefault(entryValue, 0); // Cantitat del valor amb el que comptem
+      int countToSubtract = entry.getValue(); // Quantitat d'aquell valor a restar
+      int currentCount = money.getOrDefault(entryValue, 0); // Quantitat del valor amb el que comptem
 
       int countDifference = currentCount - countToSubtract;
       if(countDifference <= 0) { // Si no hi ha diners suficients o ens quedem a 0
         money.remove(entryValue); // Elimina la clau del mapa
       }
       else {
-        money.put(entryValue, countDifference); // Actualitza la cantitat de diners amb valor "value"
+        money.put(entryValue, countDifference); // Actualitza la quantitat de diners amb valor "value"
       }
     }
   }
@@ -54,10 +54,10 @@ public class MoneyBag {
       int requiredCount = entry.getValue();
       int currentCount = money.getOrDefault(requiredValue, 0);
       if(currentCount < requiredCount) {
-        return false;
+        return false; // No hi ha diners suficients del valor "requiredValue"
       }
     }
-    return true;
+    return true; // Hi ha diners suficients de tot el que necessita la bossa de diners "required"
   }
 
   @Override
