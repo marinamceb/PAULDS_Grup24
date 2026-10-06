@@ -1,9 +1,12 @@
 package pos_creditcard;
 
 
+import change_making.CashBox;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Sale {
   private int id;
@@ -11,9 +14,11 @@ public class Sale {
   private LocalDateTime dateTime = LocalDateTime.now();
   private Payment payment = null;  // note : supertype
   boolean isPaid = false;
+  private String changeMaking;
 
-  public Sale(int id) {
+  public Sale(int id, String changeMaking) {
     this.id = id;
+    this.changeMaking = changeMaking;
   }
 
   public int getId() {
@@ -62,15 +67,28 @@ public class Sale {
     System.out.printf("Total %.2f\n", total);
   }
 
-  public void payCash(double amountHanded) {
+  public void payCash(Map<Double, Integer> moneyHanded, CashBox cashBox) {
     assert !isPaid : "sale " + id + " has already been paid";
+
+    double totalHanded = 0;
+    for (Map.Entry<Double, Integer> entry : moneyHanded.entrySet()) {
+      totalHanded += entry.getKey() * entry.getValue();
+    }
+
     double totalSale = total();
-    if (amountHanded >= totalSale) {
-      payment = new PaymentInCash(amountHanded, total());
-      isPaid = true;
+    if (totalHanded >= totalSale) {
+      PaymentInCash cashPayment = new PaymentInCash(moneyHanded, total(), changeMaking, cashBox);
+      payment = cashPayment;
+
+      if(cashPayment.isPaymentAccepted()){
+        isPaid = true;
+        payment.print();
+      } else{
+        System.out.println("No s'ha acceptat el pagament");
+      }
+
     } else {
-      payment = null;
-      System.out.println("Amount handed " + amountHanded
+      System.out.println("Amount handed " + totalHanded
           + " is not enough to pay total of sale " + totalSale);
     }
   }

@@ -1,6 +1,9 @@
 package pos_creditcard;
 
+import change_making.CashBox;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class PointOfSale {
@@ -8,15 +11,22 @@ public class PointOfSale {
   private ArrayList<Sale> sales;
   private int idLastSale = 0;
   private final String FILE_NAME = "src/pos_creditcard/catalog.txt";
+  private CashBox cashBox;
 
   public PointOfSale() {
     productCatalog = new ProductCatalog(FILE_NAME);
     sales = new ArrayList<>();
+
+    cashBox = new CashBox();
+    double[] startingDenoms = {0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0};
+    for (double d : startingDenoms) {
+      cashBox.addCoins(d, 5);
+    }
   }
 
-  public int makeNewSale() {
+  public int makeNewSale(String changeMaking) {
     idLastSale++;
-    Sale newSale = new Sale(idLastSale);
+    Sale newSale = new Sale(idLastSale, changeMaking);
     sales.add(newSale);
     return idLastSale;
   }
@@ -41,9 +51,9 @@ public class PointOfSale {
     sale.printReceipt();
   }
 
-  public void payOneSaleCash(int saleId, double amountHanded) {
+  public void payOneSaleCash(int saleId, Map<Double, Integer> moneyHanded) {
     Sale sale = searchSaleById(saleId);
-    sale.payCash(amountHanded);
+    sale.payCash(moneyHanded, cashBox);
   }
 
   public void payOneSaleCreditCard(int saleId, String ccnumber) {
