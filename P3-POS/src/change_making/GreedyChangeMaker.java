@@ -1,29 +1,27 @@
 package change_making;
 
-public class GreedyChangeMaker extends ChangeMaker {
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-  // MÈTODES
+public class GreedyChangeMaker extends ChangeMaker{
   @Override
-  public MoneyBag change(double change) {
-    MoneyBag result = new MoneyBag();
-    if(change <= 0.0) {
-      return result;
-    }
+  public Map<Double, Integer> change(double changeAmount){
+    Map<Double, Integer> result = new LinkedHashMap<>();
 
-    int remainingChange = (int) Math.round(change * 100.0); // Arrodonim a cèntims per evitar errors de precisió pel double
+    //Multipliquem x100 per treballar en centims i evitar possibles errors
+    long remaining = Math.round(changeAmount * 100);
 
-    for(int i=DENOMINATIONS.length-1; i>=0; i--) { // Recorre els valors de major a menor
+    // Es recorre l'array de denominacions de major a menor
+    for (int i = denominations.length -1; i >= 0; i--) {
+      long denomCents = Math.round(denominations[i] * 100);
 
-      double value = DENOMINATIONS[i]; // Valor dels diners en euros
-      int valueCents = (int) Math.round(value * 100.0); // Valor dels diners en cèntims
-
-      if(remainingChange >= valueCents) { // Si els diners amb valor "value" hi quep en el canvi a donar
-        int count = remainingChange / valueCents; // Nombre de diners de valor "value" que hi quep al canvi a donar
-        result.add(value, count); // Afegeix el "count" de diners de valor "value" al canvi
-        remainingChange -= count * valueCents; // Resta el canvi que falta per donar
+      if (remaining >= denomCents){
+        // Es divideix el restant entre la denominació per saber la quantitat de monedes
+        int count = (int) (remaining / denomCents);
+        result.put(denominations[i], count);
+        remaining %= denomCents;
       }
     }
-
     return result;
   }
 }
