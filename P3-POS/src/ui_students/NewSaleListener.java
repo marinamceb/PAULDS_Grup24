@@ -25,7 +25,7 @@ class NewSaleListener implements ActionListener {
       if (listenerCurrentTable.hasASale()) {
         int currentSaleId = listenerCurrentTable.getSaleId();
         if (pointOfSale.isSalePaid(currentSaleId)) {
-          int saleId = pointOfSale.makeNewSale();
+          int saleId = pointOfSale.makeNewSale("greedy");
           listenerCurrentTable.setSaleId(saleId);
         } else {
           System.out.println("Current sale of table "
@@ -33,7 +33,7 @@ class NewSaleListener implements ActionListener {
               + " has not been paid yet");
         }
       } else {
-        int saleId = pointOfSale.makeNewSale();
+        int saleId = pointOfSale.makeNewSale("greedy");
         listenerCurrentTable.setSaleId(saleId);
       }
     }

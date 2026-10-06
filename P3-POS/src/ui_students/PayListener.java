@@ -4,6 +4,8 @@ import pos_creditcard.PointOfSale;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 public class PayListener implements ActionListener {
@@ -28,8 +30,11 @@ public class PayListener implements ActionListener {
       if (listenerCurrentTable.hasASale()) {
         int idSale = listenerCurrentTable.getSaleId();
         double paidAmount = amountListener.getPaidAmount();
-        if (!pointOfSale.isSalePaid(idSale) && (paidAmount > 0)) {
-          pointOfSale.payOneSaleCash(idSale, paidAmount);
+
+        if(!pointOfSale.isSalePaid(idSale) && (paidAmount > 0)){
+          Map<Double, Integer> moneyHanded = convertToDenominations(paidAmount);
+
+          pointOfSale.payOneSaleCash(idSale, moneyHanded);
 
           pointOfSale.printPayment(idSale);
           //paidAmount = 0;
@@ -41,5 +46,22 @@ public class PayListener implements ActionListener {
         }
       }
     }
+  }
+
+  private Map<Double, Integer> convertToDenominations(double amount){
+    Map<Double, Integer> map = new TreeMap<>();
+    double[] denominations = {50.0, 20.0, 10.0, 5.0, 2.0, 1.0, 0.50, 0.20, 0.10, 0.05, 0.02, 0.01};
+
+    long remainingCents = Math.round(amount * 100);
+
+    for (double denom : denominations) {
+      long denomCents = Math.round(denom * 100);
+      if (remainingCents >= denomCents) {
+        int count = (int) (remainingCents / denomCents);
+        map.put(denom, count);
+        remainingCents %= denomCents;
+      }
+    }
+    return map;
   }
 }
