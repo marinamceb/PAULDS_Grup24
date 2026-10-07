@@ -1,14 +1,15 @@
 ===== 1744151 Abel Torrabadella Vila =====
-- 
-- 
-- 
+
+- Proves al Main (els 5 casos de test) i fitxer d'entrada/sortida per consola.
+- Diagrama de classes en PlantUML i exportació a PNG.
 
 ===== 1742588 Pol Ruiz Torras ======
-- 
-- 
-- 
+
+- Paquet change_making: classes ChangeMaker, GreedyChangeMaker i RandomChangeMaker
+  (algorismes de canvi, patró Strategy).
+- Classe CashBox (control de les monedes i bitllets de la caixa).
 
 ===== 1747437 Marina Martín Cebrián =====
-- 
-- 
-- 
+
+- Integració al paquet pos_creditcard: classes PaymentInCash, Sale i PointOfSale.
+- Correcció d'errors de precisió i de la sortida per consola.
