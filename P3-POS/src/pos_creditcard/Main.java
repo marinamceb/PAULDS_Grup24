@@ -5,110 +5,116 @@ import java.util.TreeMap;
 
 public class Main {
 
-    private static void testGreedy(){
+    private static void testGreedy() {
         System.out.println("TEST: GREEDY");
         System.out.println("================");
 
         PointOfSale pointOfSale = new PointOfSale();
-
-        // Es crea la venda passant el metode de retorn
         int idSale = pointOfSale.makeNewSale("greedy");
 
-        // Afegim producte
         pointOfSale.addLineItemToSale(idSale, "Moritz", 4);
         pointOfSale.addLineItemToSale(idSale, "Coca-cola", 1);
         pointOfSale.addLineItemToSale(idSale, "Coca-cola", 2);
-
         pointOfSale.printReceiptOfSale(idSale);
 
         Map<Double, Integer> moneyHanded = new TreeMap<>();
         moneyHanded.put(10.0, 2);
-//        System.out.println("\nClient paga amb: " + handedAmount + " Euros");
 
         pointOfSale.payOneSaleCash(idSale, moneyHanded);
         pointOfSale.printPayment(idSale);
         System.out.println();
     }
 
-    private static void testRandom(){
+    private static void testRandom() {
         System.out.println("TEST: RANDOM");
         System.out.println("================");
 
         PointOfSale pointOfSale = new PointOfSale();
-
-        // Es crea la venda passant el metode de retorn
         int idSale = pointOfSale.makeNewSale("random");
 
-        // Afegim producte
         pointOfSale.addLineItemToSale(idSale, "Moritz", 4);
         pointOfSale.addLineItemToSale(idSale, "Coca-cola", 1);
         pointOfSale.addLineItemToSale(idSale, "Coca-cola", 2);
-
         pointOfSale.printReceiptOfSale(idSale);
 
         Map<Double, Integer> moneyHanded = new TreeMap<>();
         moneyHanded.put(10.0, 2);
-//        System.out.println("\nClient paga amb: " + handedAmount + " Euros");
 
         pointOfSale.payOneSaleCash(idSale, moneyHanded);
         pointOfSale.printPayment(idSale);
         System.out.println();
     }
 
+    private static void testNoChangeAvailable() {
+        System.out.println("TEST: NO CHANGE AVAILABLE");
+        System.out.println("================");
+
+        PointOfSale pointOfSale = new PointOfSale();
+
+        // Each payment needs 1 note of 20, 10 and 5 as change, and the box only
+        // has 2 of each, so the third payment cannot be given its change
+        for (int i = 0; i < 3; i++) {
+            int idSale = pointOfSale.makeNewSale("greedy");
+
+            pointOfSale.addLineItemToSale(idSale, "Moritz", 4);
+            pointOfSale.addLineItemToSale(idSale, "Coca-cola", 3);
+            pointOfSale.printReceiptOfSale(idSale);
+
+            Map<Double, Integer> moneyHanded = new TreeMap<>();
+            moneyHanded.put(50.0, 1);
+
+            pointOfSale.payOneSaleCash(idSale, moneyHanded);
+            pointOfSale.printPayment(idSale);
+            System.out.println();
+        }
+    }
+
+    private static void testExactAmount() {
+        System.out.println("TEST: AMOUNT HANDED EQUALS SALE TOTAL");
+        System.out.println("================");
+
+        PointOfSale pointOfSale = new PointOfSale();
+        int idSale = pointOfSale.makeNewSale("greedy");
+
+        pointOfSale.addLineItemToSale(idSale, "Moritz", 4);
+        pointOfSale.addLineItemToSale(idSale, "Coca-cola", 3);
+        pointOfSale.printReceiptOfSale(idSale);
+
+        // 10 + 1 + 0.2 = 11.20
+        Map<Double, Integer> moneyHanded = new TreeMap<>();
+        moneyHanded.put(10.0, 1);
+        moneyHanded.put(1.0, 1);
+        moneyHanded.put(0.2, 1);
+
+        pointOfSale.payOneSaleCash(idSale, moneyHanded);
+        pointOfSale.printPayment(idSale);
+        System.out.println();
+    }
+
+    private static void testNotEnoughMoney() {
+        System.out.println("TEST: AMOUNT HANDED LESS THAN SALE TOTAL");
+        System.out.println("================");
+
+        PointOfSale pointOfSale = new PointOfSale();
+        int idSale = pointOfSale.makeNewSale("greedy");
+
+        pointOfSale.addLineItemToSale(idSale, "Moritz", 4);
+        pointOfSale.addLineItemToSale(idSale, "Coca-cola", 3);
+        pointOfSale.printReceiptOfSale(idSale);
+
+        Map<Double, Integer> moneyHanded = new TreeMap<>();
+        moneyHanded.put(10.0, 1);
+
+        pointOfSale.payOneSaleCash(idSale, moneyHanded);
+        pointOfSale.printPayment(idSale);
+        System.out.println();
+    }
 
     public static void main(String[] args) {
-
         testGreedy();
         testRandom();
-
-//        PointOfSale pointOfSale = new PointOfSale();
-//        // Some customers arrive, sit at a table, the waiter comes and makes a new sale.
-//        // Then takes the order : 4 Moritz and 1 Coca-cola
-//        int idSale = pointOfSale.makeNewSale("greedy");
-//
-//        pointOfSale.addLineItemToSale(idSale, "Moritz", 4);
-//        pointOfSale.addLineItemToSale(idSale, "Coca-cola", 1);
-//        // later 2 more Coca-colas
-//        pointOfSale.addLineItemToSale(idSale, "Coca-cola", 2);
-//        // ask for the bill and the waiter prints the receipt:
-//        //Sale 1
-//        //03-03-2024 10:57
-//        //Moritz 4 x 1.9 = 7.6
-//        //Coca-cola 3 x 1.2 = 3.6
-//        //Total 11.2
-//        pointOfSale.printReceiptOfSale(idSale);
-//        double handedAmount = 20.;
-//        pointOfSale.payOneSaleCash(idSale, handedAmount);
-//        pointOfSale.printPayment(idSale);
-//
-//        System.out.println("---------------------------------");
-//        int idSale2 = pointOfSale.makeNewSale("random");
-//        pointOfSale.addLineItemToSale(idSale2, "Nestea", 1);
-//        pointOfSale.printReceiptOfSale(idSale2);
-//        pointOfSale.payOneSaleCreditCard(idSale2, "4502360043567891");
-//        pointOfSale.printPayment(idSale2);
+        testNoChangeAvailable();
+        testExactAmount();
+        testNotEnoughMoney();
     }
-  // the old main
-  /*
-  public static void main(String[] args) {
-    ArrayList<ProductSpecification> products = new ArrayList();
-    ArrayList<Sale> sales = new ArrayList<>();
-
-    ProductSpecification cocacola = new ProductSpecification("Coca-cola", 1.20);
-    ProductSpecification moritz = new ProductSpecification("Nestea", 1.50);
-    //...
-    products.add(cocacola);
-    products.add(moritz); // why do we want products ?
-    //...
-    Sale newSale1 = new Sale(1);
-    sales.add(newSale1); // why do we want sales ?
-    // later
-    Sale newSale2 = new Sale(1);
-    sales.add(newSale2);
-    //...
-    newSale1.saleLineItems.add(new SaleLineItem(moritz, 4)); // public attribute
-    newSale1.saleLineItems.add(new SaleLineItem(cocacola, 3));
-  }
-  */
-
 }

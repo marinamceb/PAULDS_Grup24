@@ -1,6 +1,5 @@
 package pos_creditcard;
 
-
 import change_making.CashBox;
 
 import java.time.LocalDateTime;
@@ -26,6 +25,10 @@ public class Sale {
   }
 
   public void addLineItem(ProductSpecification productSpecification, int quantity) {
+    // Unknown product (searchByName returned null): nothing to add
+    if (productSpecification == null) {
+      return;
+    }
     for (SaleLineItem item : saleLineItems) {
       if (item.productSpecification == productSpecification) { // same object
         item.incrementQuantity(quantity);
@@ -45,58 +48,46 @@ public class Sale {
 
   public void printReceipt() {
     System.out.println("Sale " + id);
-    System.out.println(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm").format(dateTime));
+    System.out.println(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").format(dateTime));
     for (SaleLineItem saleLineItem : saleLineItems) {
       saleLineItem.print();
     }
     System.out.printf("Total %.2f\n", total());
   }
 
-  public void badPrintReceipt() {
-    System.out.println("Sale " + id);
-    System.out.println(DateTimeFormatter.ofPattern("dd-MM-yyy hh:mm").format(dateTime));
-    double total = 0.;
-    for (SaleLineItem saleLineItem : saleLineItems) {
-      String prodName = saleLineItem.productSpecification.getName();
-      int quantity = saleLineItem.quantity; //getQuantity();
-      double price = saleLineItem.productSpecification.getPrice();
-      double subtotal = quantity * price;
-      System.out.printf("%s %d x %.2f = %.2f\n", prodName, quantity, price, subtotal);
-      total += subtotal;
-    }
-    System.out.printf("Total %.2f\n", total);
-  }
-
   public void payCash(Map<Double, Integer> moneyHanded, CashBox cashBox) {
     assert !isPaid : "sale " + id + " has already been paid";
 
-    double totalHanded = 0;
+    // Both amounts are compared in cents to avoid floating point errors
+    // (e.g. 7.6 + 3.6 = 11.200000000000001)
+    long centsHanded = 0;
     for (Map.Entry<Double, Integer> entry : moneyHanded.entrySet()) {
-      totalHanded += entry.getKey() * entry.getValue();
+      centsHanded += Math.round(entry.getKey() * 100) * entry.getValue();
     }
+    long centsToPay = Math.round(total() * 100);
 
-    double totalSale = total();
-    if (totalHanded >= totalSale) {
-      PaymentInCash cashPayment = new PaymentInCash(moneyHanded, total(), changeMaking, cashBox);
-      payment = cashPayment;
+    if (centsHanded >= centsToPay) {
+      PaymentInCash cashPayment =
+              new PaymentInCash(moneyHanded, centsToPay / 100.0, changeMaking, cashBox);
 
-      if(cashPayment.isPaymentAccepted()){
+      // The payment is only kept if it has been accepted. It is printed
+      // later with printPayment(), so it is not shown twice
+      if (cashPayment.isPaymentAccepted()) {
+        payment = cashPayment;
         isPaid = true;
-        payment.print();
-      } else{
+      } else {
         System.out.println("No s'ha acceptat el pagament");
       }
-
     } else {
-      System.out.println("Amount handed " + totalHanded
-          + " is not enough to pay total of sale " + totalSale);
+      System.out.printf("Amount handed %.2f is not enough to pay total of sale %.2f\n",
+              centsHanded / 100.0, centsToPay / 100.0);
     }
   }
 
   public void payCreditCard(String ccnumber) {
     assert !isPaid : "sale " + id + " has already been paid";
     payment = new PaymentCreditCard(ccnumber, total());
-    if ( ((PaymentCreditCard) payment).isAuthorized() ) {
+    if (((PaymentCreditCard) payment).isAuthorized()) {
       // note cast, necessary to call isAuthorized()
       isPaid = true;
     }
@@ -113,5 +104,4 @@ public class Sale {
   public boolean isPaid() {
     return isPaid;
   }
-
 }

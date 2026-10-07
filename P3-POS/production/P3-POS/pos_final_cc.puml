@@ -1,0 +1,134 @@
+@startuml
+'https://plantuml.com/class-diagram
+skinparam classAttributeIconSize 0
+
+package pos_creditcard {
+
+  class Main {
+    {static} + main(args : String[])
+  }
+
+  class PointOfSale {
+    - idLastSale : int
+    - FILE_NAME : String
+    + makeNewSale(changeMaking : String) : int
+    + addLineItemToSale(idSale : int, \n\tprodName : String, qty : int)
+    + printReceiptOfSale(saleId : int)
+    + payOneSaleCash(saleId : int, \n\tmoneyHanded : Map<Double, Integer>)
+    + payOneSaleCreditCard(saleId : int, ccnumber : String)
+    + printPayment(saleId : int)
+    + isSalePaid(saleId : int) : boolean
+    - searchSaleById(id : int) : Sale
+  }
+
+  class ProductCatalog {
+    + ProductCatalog(fileName : String)
+    + searchByName(name : String) : ProductSpecification
+    - addProductSpecification(name : String, price : double)
+  }
+
+  note left of ProductCatalog::ProductCatalog
+    text file with
+    Coca-cola : 1.20
+    Nestea    : 1.50
+    Moritz    : 1.90
+    ...
+  end note
+
+  class ProductSpecification {
+    - price : double
+    - name : String
+  }
+
+  class Sale {
+    - id : int
+    - dateTime : LocalDateTime
+    - isPaid : boolean
+    - changeMaking : String
+    + Sale(id : int, changeMaking : String)
+    + addLineItem(prodSpec : ProductSpecification, qty : int)
+    + payCash(moneyHanded : Map<Double, Integer>, \n\tcashBox : CashBox)
+    + payCreditCard(ccnumber : String)
+    + printPayment()
+    - total() : double
+    + printReceipt()
+  }
+
+  class SaleLineItem {
+    - quantity : int
+    + incrementQuantity(qty : int)
+    + subtotal() : double
+    + print()
+  }
+
+  abstract class Payment {
+    # amountToPay : double
+    + Payment(amountToPay : double)
+    + {abstract} print()
+  }
+
+  class PaymentInCash extends Payment {
+    - amountHanded : double
+    - moneyHanded : Map<Double, Integer>
+    - computedChange : Map<Double, Integer>
+    - paymentAccepted : boolean
+    + PaymentInCash(moneyHanded : Map<Double, Integer>, \n\tamountToPay : double, \n\tchangeMaking : String, cashBox : CashBox)
+    - processPayment()
+    + print()
+  }
+
+  class PaymentCreditCard extends Payment {
+    - ccnumber : String
+    - authorized : boolean
+    {static} - CC_LIMIT : double
+    + PaymentCreditCard(ccnumber : String, \n\tamountToPay : double)
+    - authorize() : boolean
+    + print()
+  }
+}
+
+package change_making {
+
+  abstract class ChangeMaker {
+    # denominations : double[]
+    + {abstract} change(changeAmount : double) : Map<Double, Integer>
+  }
+
+  note right of ChangeMaker::denominations
+    attribute to be inherited,
+    so abstract and not interface.
+    {0.01, 0.02, 0.05, 0.10, 0.20, 0.50,
+    1.0, 2.0, 5.0, 10.0, 20.0, 50.0}
+  end note
+
+  class GreedyChangeMaker extends ChangeMaker {
+    + change(changeAmount : double) : Map<Double, Integer>
+  }
+
+  class RandomChangeMaker extends ChangeMaker {
+    + change(changeAmount : double) : Map<Double, Integer>
+  }
+
+  class CashBox {
+    - box : Map<Double, Integer>
+    + CashBox()
+    + addCoins(denomination : double, count : int)
+    + addHandedMoney(handed : Map<Double, Integer>)
+    + removeHandedMoney(handed : Map<Double, Integer>)
+    + canGiveChange(change : Map<Double, Integer>) : boolean
+    + giveChange(change : Map<Double, Integer>)
+    + printStatus()
+  }
+}
+
+PointOfSale o--> "*" Sale : sales
+PointOfSale --> "1" ProductCatalog : productCatalog
+PointOfSale --> "1" CashBox : cashBox
+ProductCatalog o--> "*" ProductSpecification : productSpecifications
+Sale *--> "*" SaleLineItem : saleLineItems
+Sale --> "0,1" Payment : payment
+SaleLineItem --> "1" ProductSpecification : productSpecification
+PaymentInCash --> "1" ChangeMaker : changeMaker
+PaymentInCash --> "1" CashBox : cashBox
+
+@enduml

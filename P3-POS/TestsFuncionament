@@ -1,0 +1,147 @@
+TEST: GREEDY
+================
+ordered 4 Moritz
+ordered 1 Coca-cola
+ordered 2 Coca-cola
+Sale 1
+07-10-2026 20:45
+Moritz 4 x 1,90 = 7,60
+Coca-cola 3 x 1,20 = 3,60
+Total 11,20
+Make change with greedy change maker
+money handed
+2 of 10.0
+added payment to cash box
+2 of 10.0
+total to pay 11.2, change to give 8.8
+the change is
+1 of 5.0
+1 of 2.0
+1 of 1.0
+1 of 0.5
+1 of 0.2
+1 of 0.1
+
+TEST: RANDOM
+================
+ordered 4 Moritz
+ordered 1 Coca-cola
+ordered 2 Coca-cola
+Sale 1
+07-10-2026 20:45
+Moritz 4 x 1,90 = 7,60
+Coca-cola 3 x 1,20 = 3,60
+Total 11,20
+Make change with random change maker
+money handed
+2 of 10.0
+added payment to cash box
+2 of 10.0
+total to pay 11.2, change to give 8.8
+the change is
+3 of 0.01
+1 of 5.0
+1 of 2.0
+1 of 1.0
+1 of 0.5
+1 of 0.05
+1 of 0.2
+1 of 0.02
+
+TEST: NO CHANGE AVAILABLE
+================
+ordered 4 Moritz
+ordered 3 Coca-cola
+Sale 1
+07-10-2026 20:45
+Moritz 4 x 1,90 = 7,60
+Coca-cola 3 x 1,20 = 3,60
+Total 11,20
+Make change with greedy change maker
+money handed
+1 of 50.0
+added payment to cash box
+1 of 50.0
+total to pay 11.2, change to give 38.8
+the change is
+1 of 20.0
+1 of 10.0
+1 of 5.0
+1 of 2.0
+1 of 1.0
+1 of 0.5
+1 of 0.2
+1 of 0.1
+
+ordered 4 Moritz
+ordered 3 Coca-cola
+Sale 2
+07-10-2026 20:45
+Moritz 4 x 1,90 = 7,60
+Coca-cola 3 x 1,20 = 3,60
+Total 11,20
+Make change with greedy change maker
+money handed
+1 of 50.0
+added payment to cash box
+1 of 50.0
+total to pay 11.2, change to give 38.8
+the change is
+1 of 20.0
+1 of 10.0
+1 of 5.0
+1 of 2.0
+1 of 1.0
+1 of 0.5
+1 of 0.2
+1 of 0.1
+
+ordered 4 Moritz
+ordered 3 Coca-cola
+Sale 3
+07-10-2026 20:45
+Moritz 4 x 1,90 = 7,60
+Coca-cola 3 x 1,20 = 3,60
+Total 11,20
+Make change with greedy change maker
+money handed
+1 of 50.0
+added payment to cash box
+1 of 50.0
+Error: No es disposa del canvi necessari
+No s'ha acceptat el pagament
+Sale 3 not paid yet
+
+TEST: AMOUNT HANDED EQUALS SALE TOTAL
+================
+ordered 4 Moritz
+ordered 3 Coca-cola
+Sale 1
+07-10-2026 20:45
+Moritz 4 x 1,90 = 7,60
+Coca-cola 3 x 1,20 = 3,60
+Total 11,20
+Make change with greedy change maker
+money handed
+1 of 0.2
+1 of 1.0
+1 of 10.0
+added payment to cash box
+1 of 0.2
+1 of 1.0
+1 of 10.0
+total to pay 11.2, change to give 0.0
+no change to give
+
+TEST: AMOUNT HANDED LESS THAN SALE TOTAL
+================
+ordered 4 Moritz
+ordered 3 Coca-cola
+Sale 1
+07-10-2026 20:45
+Moritz 4 x 1,90 = 7,60
+Coca-cola 3 x 1,20 = 3,60
+Total 11,20
+Amount handed 10,00 is not enough to pay total of sale 11,20
+Sale 1 not paid yet
+
