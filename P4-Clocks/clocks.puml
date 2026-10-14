@@ -1,0 +1,75 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class Observable {
+  +addObserver(ob : Observer)
+  #setChanged()
+  +notifyObservers(arg : Object)
+}
+
+interface Observer {
+  +update(o : Observable, arg : Object)
+}
+
+class ClockTimer extends Observable {
+  -timer : Timer
+  -period : int
+  +ClockTimer(period : int)
+  +getPeriod() : int
+}
+
+abstract class Clock implements Observer {
+  #panel : JPanel
+  #hoursOffsetTimeZone : int
+  #worldPlace : String
+  #repaintPeriod : int
+  -lastTimeRepaint : LocalDateTime
+  +Clock(hoursOffsetTimeZone : int, worldPlace : String, repaintPeriod : int)
+  +show()
+  +update(o : Observable, arg : Object)
+  -isTimeToRepaint(now : LocalDateTime) : boolean
+  {abstract} #repaintClock(now : LocalDateTime)
+}
+
+class AnalogClock extends Clock {
+  -time : LocalDateTime
+  +AnalogClock(hoursOffsetTimeZone : int, worldPlace : String)
+  #repaintClock(now : LocalDateTime)
+}
+
+class DigitalClock extends Clock {
+  -formatter : DateTimeFormatter
+  -clockLabel : JLabel
+  +DigitalClock(hoursOffsetTimeZone : int, worldPlace : String)
+  #repaintClock(now : LocalDateTime)
+}
+
+class CountdownTimer extends Clock {
+  -remaining : Duration
+  -clockLabel : JLabel
+  +CountdownTimer(duration : Duration, clockTimer : ClockTimer)
+  +update(o : Observable, arg : Object)
+  #repaintClock(now : LocalDateTime)
+  -format(d : Duration) : String
+}
+
+class Stopwatch extends Clock {
+  -elapsed : Duration
+  -running : boolean
+  -clockLabel : JLabel
+  -startStopButton : JButton
+  +Stopwatch(clockTimer : ClockTimer)
+  -startStopButtonPressed()
+  +update(o : Observable, arg : Object)
+  #repaintClock(now : LocalDateTime)
+  -format(d : Duration) : String
+}
+
+class Main {
+  {static} +main(args : String[])
+}
+
+Observable --> "*" Observer : observers
+CountdownTimer --> "1" ClockTimer : clockTimer
+Stopwatch --> "1" ClockTimer : clockTimer
+@enduml
