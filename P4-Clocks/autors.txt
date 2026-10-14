@@ -1,0 +1,18 @@
+===== 1744151 Abel Torrabadella Vila =====
+
+  - AnalogClock (inclosa la classe interna MyJPanel)
+  - DigitalClock
+  - Vídeo/gif de demostració
+
+===== 1742588 Pol Ruiz Torras ======
+
+  - ClockTimer (Observable, timer únic i notificació de l'hora)
+  - Clock (classe abstracta Observer, isTimeToRepaint)
+  - Main (creació del timer)
+  - Proves finals, revisió del codi i fitxer autors
+
+===== 1747437 Marina Martín Cebrián =====
+
+  - CountdownTimer
+  - Stopwatch (botó Start/Stop)
+  - Diagrama de classes UML (clocks.puml + clocks.png)

@@ -35,13 +35,18 @@ public class Stopwatch extends Clock {
     startStopButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        isRunning = !isRunning;
-        startStopButton.setText(isRunning ? "Stop" : "Start");
+        startStopButtonPressed();
       }
     });
     panel.add(startStopButton);
 
     timer.addObserver(this);
+  }
+
+  // start counting if it was paused, pause it if it was counting
+  private void startStopButtonPressed() {
+    isRunning = !isRunning;
+    startStopButton.setText(isRunning ? "Stop" : "Start");
   }
 
   @Override

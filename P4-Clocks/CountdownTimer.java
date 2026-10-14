@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Observable;
 
 public class CountdownTimer extends Clock{
@@ -52,7 +51,7 @@ public class CountdownTimer extends Clock{
   }
 
   private void updateDisplay(Duration remaining) {
-    // Convert a Duration to string[cite: 18]
+    // Convert a Duration to string
     String formattedCountdown = String.format("%d:%02d:%02d",
         remaining.toHours(),
         remaining.toMinutesPart(),

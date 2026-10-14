@@ -1,0 +1,107 @@
+@startuml clocks
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+' ---- java.util (observer pattern) ----
+class Observable {
+  +addObserver(o : Observer)
+  +deleteObserver(o : Observer)
+  +countObservers() : int
+  #setChanged()
+  +hasChanged() : boolean
+  +notifyObservers(arg : Object)
+}
+
+interface Observer {
+  +update(o : Observable, arg : Object)
+}
+
+' ---- our classes ----
+class ClockTimer {
+  -period : int
+  +ClockTimer(period : int)
+  +getPeriod() : int
+}
+
+abstract class Clock {
+  #panel : JPanel
+  #lastTimeRepaint : LocalDateTime
+  #repaintPeriod : int
+  +{abstract} show()
+  #isTimeToRepaint(now : LocalDateTime) : boolean
+}
+
+class AnalogClock {
+  -hoursOffsetTimeZone : int
+  -worldPlace : String
+  +AnalogClock(hoursOffsetTimeZone : int, worldPlace : String, timer : ClockTimer)
+  +update(o : Observable, arg : Object)
+  +show()
+}
+
+class MyJPanel <<JPanel>> {
+  +paintComponent(g : Graphics)
+  -drawHand(g2d : Graphics2D, length : int, value : double, stroke : float, color : Color)
+  -drawClockFace(g2d : Graphics2D, centerX : int, centerY : int, radius : int)
+}
+
+class DigitalClock {
+  -hoursOffsetTimeZone : int
+  -clockLabel : JLabel
+  -formatter : DateTimeFormatter
+  +DigitalClock(hoursOffsetTimeZone : int, worldPlace : String, timer : ClockTimer)
+  +update(o : Observable, arg : Object)
+  +show()
+}
+
+class CountdownTimer {
+  -timeLabel : JLabel
+  -endTime : LocalDateTime
+  -initialDuration : Duration
+  +CountdownTimer(duration : Duration, timer : ClockTimer)
+  +update(o : Observable, arg : Object)
+  -updateDisplay(remaining : Duration)
+  +show()
+}
+
+class Stopwatch {
+  -timeLabel : JLabel
+  -startStopButton : JButton
+  -isRunning : boolean
+  -elapsedTime : Duration
+  +Stopwatch(timer : ClockTimer)
+  +update(o : Observable, arg : Object)
+  +show()
+}
+
+class Main {
+  +{static} main(args : String[])
+}
+
+' ---- relationships ----
+Observable <|-- ClockTimer
+Observer <|.. Clock
+
+Observable "1" o--> "*" Observer : observers
+
+Clock <|-- AnalogClock
+Clock <|-- DigitalClock
+Clock <|-- CountdownTimer
+Clock <|-- Stopwatch
+
+AnalogClock *--> "1" MyJPanel : panel
+
+Stopwatch --> "1" ClockTimer : timerRef
+
+note right of ClockTimer
+  Keeps the time: every <i>period</i> ms
+  it calls setChanged() and
+  notifyObservers(LocalDateTime.now())
+end note
+
+note right of Clock
+  Every clock decides how (repaint)
+  and when (isTimeToRepaint) to update itself
+end note
+
+@enduml
