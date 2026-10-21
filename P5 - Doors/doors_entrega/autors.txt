@@ -1,3 +1,21 @@
-Autors:
-Nom i cognoms: ______________________   NIU: _______
-Nom i cognoms: ______________________   NIU: _______
+===== 1744151 Abel Torrabadella Vila =====
+
+  - CodeHandler (classe abstracta, pas al següent handler)
+  - Door (estat de la porta i cadena de handlers)
+  - Lock (recompte d'intents fallits i bloqueig)
+  - Prova i sortida comentada de la cadena 1 (output_chain1.txt)
+
+===== 1742588 Pol Ruiz Torras ======
+
+  - Open
+  - Unlock
+  - FireAlarm
+  - Canvi de comportament en temps d'execució (setCodeHandler)
+  - Prova i sortida comentada de la cadena 3 (output_chain3.txt)
+
+===== 1747437 Marina Martín Cebrián =====
+
+  - Log (registre amb id, data i hora, i estat de la porta)
+  - Client (construcció de les cadenes, main i mode interactiu)
+  - Prova i sortida comentada de la cadena 2 (output_chain2.txt)
+  - Diagrama de classes UML (doors.puml + doors.png), README, fitxer autors i muntatge de l'entrega
