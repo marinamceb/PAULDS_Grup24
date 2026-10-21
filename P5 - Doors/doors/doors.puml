@@ -1,0 +1,78 @@
+@startuml doors
+title Doors access controller - Chain of Responsibility
+
+class Door {
+  -id : String
+  -locked : boolean
+  -numTrials : int
+  +Door(id : String, ch : CodeHandler)
+  +processCode(code : String)
+  +resetState()
+  +incrementNumTrials()
+  +getNumTrials() : int
+  +isLocked() : boolean
+  +lock()
+  +open()
+  +getId() : String
+  +setCodeHandler(ch : CodeHandler)
+}
+
+abstract class CodeHandler {
+  +CodeHandler(nextHandler : CodeHandler)
+  +handleCode(code : String, door : Door)
+}
+
+class Log {
+  +Log(next : CodeHandler)
+  +handleCode(code : String, door : Door)
+}
+
+class Unlock {
+  -codeUnlock : String
+  +Unlock(code : String, next : CodeHandler)
+  +handleCode(code : String, door : Door)
+}
+
+class FireAlarm {
+  -codeFireAlarm : String
+  +FireAlarm(code : String, next : CodeHandler)
+  +handleCode(code : String, door : Door)
+}
+
+class Open {
+  -codeOpen : String
+  +Open(code : String, next : CodeHandler)
+  +handleCode(code : String, door : Door)
+}
+
+class Lock {
+  -{static} MaxNumTrials : int = 3
+  +Lock(next : CodeHandler)
+  +handleCode(code : String, door : Door)
+}
+
+class Client {
+  +{static} main(args : String[])
+}
+
+Door --> "1" CodeHandler : codeHandler
+CodeHandler --> "0..1" CodeHandler : nextHandler
+CodeHandler <|-- Log
+CodeHandler <|-- Unlock
+CodeHandler <|-- FireAlarm
+CodeHandler <|-- Open
+CodeHandler <|-- Lock
+Client ..> Door : creates
+Client ..> CodeHandler : builds chains
+
+note right of Lock
+  Counts failed trials and locks the door.
+  Only receives codes not served by previous
+  handlers, so it must be the last one.
+end note
+
+note bottom of CodeHandler
+  handleCode() passes the code
+  to nextHandler if not null
+end note
+@enduml

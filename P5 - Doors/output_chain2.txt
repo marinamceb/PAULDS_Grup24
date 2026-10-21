@@ -1,0 +1,63 @@
+// Cadena 2: Log -> Open. La porta nomes registra els codis i s'obre amb el codi
+// d'obrir. No te alarma, ni bloqueig ni desbloqueig.
+//
+
+==================================================
+CHAIN 2: Log -> Open
+==================================================
+
+// 1111 = codi d'obrir: Open obre la porta.
+door d2 <- code 1111
+   handle Log
+   [LOG] door d2, code 1111, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   >>> door d2 opened
+
+// 1234 = codi incorrecte: arriba al final de la cadena, no passa res.
+door d2 <- code 1234
+   handle Log
+   [LOG] door d2, code 1234, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   reached end of chain
+
+// 4321 = codi incorrecte: no passa res.
+door d2 <- code 4321
+   handle Log
+   [LOG] door d2, code 4321, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   reached end of chain
+
+// 5555 = tercer codi incorrecte seguit: com que no hi ha Lock, la porta NO es bloqueja.
+door d2 <- code 5555
+   handle Log
+   [LOG] door d2, code 5555, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   reached end of chain
+
+// 6666 = quart codi incorrecte: tampoc es bloqueja.
+door d2 <- code 6666
+   handle Log
+   [LOG] door d2, code 6666, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   reached end of chain
+
+// 2222 = el codi d'alarma no te cap efecte: no hi ha handler FireAlarm.
+door d2 <- code 2222
+   handle Log
+   [LOG] door d2, code 2222, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   reached end of chain
+
+// 3333 = el codi de desbloqueig no te cap efecte: no hi ha handler Unlock.
+door d2 <- code 3333
+   handle Log
+   [LOG] door d2, code 3333, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   reached end of chain
+
+// 1111 = la porta continua oberta al codi d'obrir (mai s'ha bloquejat).
+door d2 <- code 1111
+   handle Log
+   [LOG] door d2, code 1111, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   >>> door d2 opened

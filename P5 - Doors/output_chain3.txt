@@ -1,0 +1,79 @@
+// Cadena 3: Log -> FireAlarm -> Open. La porta registra, obre i dispara l'alarma,
+// pero no es bloqueja mai despres d'intents fallits (no hi ha Lock).
+//
+
+==================================================
+CHAIN 3: Log -> FireAlarm -> Open
+==================================================
+
+// 1111 = codi d'obrir: FireAlarm el passa i Open obre.
+door d3 <- code 1111
+   handle Log
+   [LOG] door d3, code 1111, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   handle Open
+   >>> door d3 opened
+
+// 2222 = codi d'alarma: FireAlarm envia l'alarma i obre la porta; Open ja no s'executa.
+door d3 <- code 2222
+   handle Log
+   [LOG] door d3, code 2222, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   >>> FIRE ALARM sent to surveillance station from door d3
+   >>> door d3 opened
+
+// 1234 = codi incorrecte: arriba al final de la cadena sense efecte.
+door d3 <- code 1234
+   handle Log
+   [LOG] door d3, code 1234, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   handle Open
+   reached end of chain
+
+// 4321 = codi incorrecte.
+door d3 <- code 4321
+   handle Log
+   [LOG] door d3, code 4321, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   handle Open
+   reached end of chain
+
+// 5555 = tercer codi incorrecte: la porta NO es bloqueja (no hi ha Lock).
+door d3 <- code 5555
+   handle Log
+   [LOG] door d3, code 5555, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   handle Open
+   reached end of chain
+
+// 6666 = quart codi incorrecte, tampoc es bloqueja.
+door d3 <- code 6666
+   handle Log
+   [LOG] door d3, code 6666, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   handle Open
+   reached end of chain
+
+// 3333 = el codi de desbloqueig no es reconeix (no hi ha Unlock).
+door d3 <- code 3333
+   handle Log
+   [LOG] door d3, code 3333, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   handle Open
+   reached end of chain
+
+// 2222 = continua funcionant l'alarma.
+door d3 <- code 2222
+   handle Log
+   [LOG] door d3, code 2222, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   >>> FIRE ALARM sent to surveillance station from door d3
+   >>> door d3 opened
+
+// 1111 = continua obrint-se.
+door d3 <- code 1111
+   handle Log
+   [LOG] door d3, code 1111, state unlocked, at 2026-10-21 21:35:24
+   handle FireAlarm
+   handle Open
+   >>> door d3 opened

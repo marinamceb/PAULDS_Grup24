@@ -1,0 +1,160 @@
+// Cadena 1: Log -> Unlock -> FireAlarm -> Open -> Lock (la porta ho fa tot).
+// Cada linia 'handle X' mostra per quin handler passa el codi. Quan un handler
+// atén la peticio (obrir, alarma, desbloquejar) la cadena s'atura i els seguents
+// handlers ja no s'executen. Lock nomes rep els codis que ningu ha atès, es a dir,
+// els intents fallits.
+//
+
+==================================================
+CHAIN 1: Log -> Unlock -> FireAlarm -> Open -> Lock
+==================================================
+
+// 1111 = codi d'obrir. Log el registra, Unlock i FireAlarm el passen, Open obre. Lock no s'executa.
+door d1 <- code 1111
+   handle Log
+   [LOG] door d1, code 1111, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   >>> door d1 opened
+
+// 2222 = codi d'alarma. FireAlarm envia l'alarma i obre la porta; la cadena s'atura aqui.
+door d1 <- code 2222
+   handle Log
+   [LOG] door d1, code 2222, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   >>> FIRE ALARM sent to surveillance station from door d1
+   >>> door d1 opened
+
+// 1234 = codi incorrecte. Arriba fins a Lock: primer intent fallit (1 de 3).
+door d1 <- code 1234
+   handle Log
+   [LOG] door d1, code 1234, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   failed trial 1 of 3
+   reached end of chain
+
+// 4321 = codi incorrecte: segon intent fallit (2 de 3).
+door d1 <- code 4321
+   handle Log
+   [LOG] door d1, code 4321, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   failed trial 2 of 3
+   reached end of chain
+
+// 5555 = codi incorrecte: tercer intent fallit -> la porta queda BLOQUEJADA.
+door d1 <- code 5555
+   handle Log
+   [LOG] door d1, code 5555, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   failed trial 3 of 3
+   >>> door d1 LOCKED
+   reached end of chain
+
+// 6666 = porta bloquejada (el log ho indica: state locked). No es el codi de desbloqueig: no es fa res.
+door d1 <- code 6666
+   handle Log
+   [LOG] door d1, code 6666, state locked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   door d1 is locked, invalid unlock code, nothing done
+   reached end of chain
+
+// 7777 = igual que l'anterior, codi de desbloqueig invalid.
+door d1 <- code 7777
+   handle Log
+   [LOG] door d1, code 7777, state locked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   door d1 is locked, invalid unlock code, nothing done
+   reached end of chain
+
+// 1111 = codi d'obrir, pero la porta esta bloquejada: Open no l'obre. No es fa res.
+door d1 <- code 1111
+   handle Log
+   [LOG] door d1, code 1111, state locked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   door d1 is locked, invalid unlock code, nothing done
+   reached end of chain
+
+// 3333 = codi de desbloqueig correcte. Unlock desbloqueja i reinicia el comptador; la cadena s'atura.
+door d1 <- code 3333
+   handle Log
+   [LOG] door d1, code 3333, state locked, at 2026-10-21 21:35:24
+   handle Unlock
+   >>> door d1 unlocked
+
+// 2222 = la porta ja no esta bloquejada: torna a obrir i disparar l'alarma.
+door d1 <- code 2222
+   handle Log
+   [LOG] door d1, code 2222, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   >>> FIRE ALARM sent to surveillance station from door d1
+   >>> door d1 opened
+
+// 9999 = codi incorrecte: intent fallit 1 de 3 (el comptador s'havia reiniciat).
+door d1 <- code 9999
+   handle Log
+   [LOG] door d1, code 9999, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   failed trial 1 of 3
+   reached end of chain
+
+// 1111 = obre la porta i reinicia el comptador d'intents a 0.
+door d1 <- code 1111
+   handle Log
+   [LOG] door d1, code 1111, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   >>> door d1 opened
+
+// 3333 = codi de desbloqueig amb la porta NO bloquejada: compta com a intent fallit (1 de 3).
+door d1 <- code 3333
+   handle Log
+   [LOG] door d1, code 3333, state unlocked, at 2026-10-21 21:35:24
+   handle Unlock
+   handle FireAlarm
+   handle Open
+   handle Lock
+   failed trial 1 of 3
+   reached end of chain
+
+==================================================
+CHAIN 1 -> CHAIN 2: change behaviour of door d1 at run time
+==================================================
+
+// Canvi de comportament en temps d'execucio: d1.setCodeHandler(chain2). 2222 ja no es reconeix (no hi ha FireAlarm a la cadena): arriba al final sense fer res.
+door d1 <- code 2222
+   handle Log
+   [LOG] door d1, code 2222, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   reached end of chain
+
+// 1111 = amb la nova cadena (Log -> Open) la porta d1 s'obre igualment.
+door d1 <- code 1111
+   handle Log
+   [LOG] door d1, code 1111, state unlocked, at 2026-10-21 21:35:24
+   handle Open
+   >>> door d1 opened
